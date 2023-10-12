@@ -1,5 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import App from './App';
+
+
+const mockData = {
+  id: Math.random(),
+  filmName: 'The Grand Budapest Hotel',
+  filmGenre: 'Drama',
+  filmReleaseDate: 2004,
+};
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -7,6 +16,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <h1>Hello, World!</h1>
+    <App {...mockData} />
   </React.StrictMode>
 );
