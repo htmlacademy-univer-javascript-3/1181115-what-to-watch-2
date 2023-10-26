@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Film } from '../../types';
 
 
@@ -14,9 +15,9 @@ function FilmCard(props: Film): JSX.Element {
         />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">
+        <Link className="small-film-card__link" to="film-page.html">
           {filmName}
-        </a>
+        </Link>
       </h3>
     </article>
   );

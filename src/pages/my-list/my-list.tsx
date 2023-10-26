@@ -1,4 +1,6 @@
 import Footer from '../../components/footer/footer';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 
 function MyList(): JSX.Element {
@@ -47,9 +49,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Fantastic Beasts: The Crimes of Grindelwald
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -63,9 +65,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Bohemian Rhapsody
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -79,9 +81,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Macbeth
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -95,9 +97,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Aviator
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -111,9 +113,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 We need to talk about Kevin
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -127,9 +129,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 What We Do in the Shadows
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -143,9 +145,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Revenant
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -159,9 +161,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Johnny English
-              </a>
+              </Link>
             </h3>
           </article>
 
@@ -175,9 +177,9 @@ function MyList(): JSX.Element {
               />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">
+              <Link className="small-film-card__link" to={AppRoute.Film}>
                 Shutter Island
-              </a>
+              </Link>
             </h3>
           </article>
         </div>
