@@ -1,5 +1,7 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 
 function Movie(): JSX.Element {
@@ -46,9 +48,9 @@ function Movie(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">
+                <Link to={AppRoute.Review} className="btn film-card__button">
                   Add review
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -69,19 +71,19 @@ function Movie(): JSX.Element {
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
                   <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">
+                    <Link to="#" className="film-nav__link">
                       Overview
-                    </a>
+                    </Link>
                   </li>
                   <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">
+                    <Link to="#" className="film-nav__link">
                       Details
-                    </a>
+                    </Link>
                   </li>
                   <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">
+                    <Link to="#" className="film-nav__link">
                       Reviews
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -142,9 +144,9 @@ function Movie(): JSX.Element {
                 />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
+                <Link className="small-film-card__link" to={AppRoute.Film}>
                   Fantastic Beasts: The Crimes of Grindelwald
-                </a>
+                </Link>
               </h3>
             </article>
 
@@ -158,9 +160,9 @@ function Movie(): JSX.Element {
                 />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
+                <Link className="small-film-card__link" to={AppRoute.Film}>
                   Bohemian Rhapsody
-                </a>
+                </Link>
               </h3>
             </article>
 
@@ -174,9 +176,9 @@ function Movie(): JSX.Element {
                 />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
+                <Link className="small-film-card__link" to={AppRoute.Film}>
                   Macbeth
-                </a>
+                </Link>
               </h3>
             </article>
 
@@ -190,9 +192,9 @@ function Movie(): JSX.Element {
                 />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
+                <Link className="small-film-card__link" to={AppRoute.Film}>
                   Aviator
-                </a>
+                </Link>
               </h3>
             </article>
           </div>

@@ -1,12 +1,16 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
+
 function Header() {
   return (
     <header className="page-header film-card__head">
       <div className="logo">
-        <a className="logo__link">
+        <Link className="logo__link" to={AppRoute.Root}>
           <span className="logo__letter logo__letter--1">W</span>
           <span className="logo__letter logo__letter--2">T</span>
           <span className="logo__letter logo__letter--3">W</span>
-        </a>
+        </Link>
       </div>
 
       <ul className="user-block">
@@ -21,7 +25,9 @@ function Header() {
           </div>
         </li>
         <li className="user-block__item">
-          <a className="user-block__link">Sign out</a>
+          <Link className="user-block__link" to={AppRoute.Login}>
+            Sign out
+          </Link>
         </li>
       </ul>
     </header>

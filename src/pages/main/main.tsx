@@ -2,6 +2,7 @@ import FilmCard from '../../components/film-card.jsx/film-card';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Film } from '../../types';
+import { Link } from 'react-router-dom';
 
 
 type MainProps = Film & {
@@ -78,54 +79,54 @@ function Main({
 
           <ul className="catalog__genres-list">
             <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 All genres
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Comedies
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Crime
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Documentary
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Dramas
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Horror
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Kids & Family
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Romance
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Sci-Fi
-              </a>
+              </Link>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
+              <Link to="#" className="catalog__genres-link">
                 Thrillers
-              </a>
+              </Link>
             </li>
           </ul>
 
