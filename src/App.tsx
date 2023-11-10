@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from './const';
 import Main from './pages/main/main';
-
-import { Film } from './types';
-import { FilmsList } from './mocs/films-list';
+import { Film, Films } from './types';
 import SignIn from './pages/sign-in/sign-in';
 import MyList from './pages/my-list/my-list';
 import Movie from './pages/movie/movie';
@@ -12,8 +10,13 @@ import Player from './pages/player/player';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import PrivateRoute from './components/private-route/private-route';
 
-function App(props: Film): JSX.Element {
-  const { id, filmName, filmGenre, filmReleaseDate } = props;
+type AppProps = Film & {
+  list: Films;
+  myList: Films;
+};
+
+function App(props: AppProps): JSX.Element {
+  const { id, filmName, filmGenre, filmReleaseDate, filmImg, list, myList } = props;
   return (
     <BrowserRouter>
       <Routes>
@@ -25,7 +28,8 @@ function App(props: Film): JSX.Element {
               filmName={filmName}
               filmGenre={filmGenre}
               filmReleaseDate={filmReleaseDate}
-              filmList={FilmsList}
+              filmImg={filmImg}
+              list={list}
             />
           }
         />
@@ -33,8 +37,10 @@ function App(props: Film): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <MyList />
+            // <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+
+              <MyList list={myList}/>
             </PrivateRoute>
           }
         />
