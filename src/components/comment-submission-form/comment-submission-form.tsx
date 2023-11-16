@@ -28,22 +28,21 @@ function CommentSubmissionForm(): JSX.Element {
 
   return (
     <form action="#" className="add-review__form">
-    
       <RatingInput handleRatingChange={handleRatingChange}/>
 
       <div className="add-review__text">
         <textarea
-            className="add-review__textarea"
-            name="review-text"
-            id="review-text"
-            placeholder="Review text"
-            value={review.comment}
-            onChange={handleCommentChange}
+          className="add-review__textarea"
+          name="review-text"
+          id="review-text"
+          placeholder="Review text"
+          value={review.comment}
+          onChange={handleCommentChange}
         />
         <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">
+          <button className="add-review__btn" type="submit">
             Post
-            </button>
+          </button>
         </div>
       </div>
     </form>

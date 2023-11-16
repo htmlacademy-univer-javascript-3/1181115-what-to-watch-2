@@ -46,8 +46,8 @@ function App(props: AppProps): JSX.Element {
           }
         />
         <Route path={AppRoute.Film} element={<Movie />} />
-        <Route path={AppRoute.AddReview} element={<AddReview filmId={id} filmName={filmName} filmImg={filmImg}/>} />
-        <Route path={AppRoute.Player} element={<Player filmId={id} filmImg={filmImg}/>} />
+        <Route path={AppRoute.AddReview} element={<AddReview filmName={filmName} filmImg={filmImg}/>} />
+        <Route path={AppRoute.Player} element={<Player filmImg={filmImg}/>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

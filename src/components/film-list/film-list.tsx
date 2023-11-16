@@ -7,10 +7,10 @@ type Props = {
 }
 
 function FilmList({films}: Props): JSX.Element {
-  const [activeCard, setActiveCard] = useState<number|null>(null);
+  const [, setActiveCard] = useState<number|null>(null);
 
   function handleMouseMove(id: number|null) {
-    setActiveCard((activeCard)=>id);
+    setActiveCard(()=>id);
   }
 
   return (

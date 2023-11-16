@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import {FilmsList} from './mocs/films-list'
+import {FilmsList} from './mocs/films-list';
 import { MyFilmList } from './mocs/my-list';
 
 

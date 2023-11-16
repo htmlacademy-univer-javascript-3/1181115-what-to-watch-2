@@ -1,5 +1,4 @@
 type PlayerProps = {
-  filmId: number;
   filmImg: string;
 };
 

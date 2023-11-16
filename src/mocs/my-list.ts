@@ -63,4 +63,3 @@ export const MyFilmList = [
     filmImg: 'img/shutter-island.jpg',
   },
 ];
-  

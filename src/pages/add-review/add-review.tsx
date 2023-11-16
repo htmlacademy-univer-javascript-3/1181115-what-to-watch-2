@@ -1,7 +1,6 @@
-import CommentSubmissionForm from "../../components/comment-submission-form/comment-submission-form";
+import CommentSubmissionForm from '../../components/comment-submission-form/comment-submission-form';
 
 type ReviewProps = {
-  filmId: number;
   filmName: string;
   filmImg: string;
 };
@@ -9,7 +8,7 @@ type ReviewProps = {
 
 function AddReview(props: ReviewProps): JSX.Element {
 
-  const { filmId, filmName, filmImg } = props;
+  const { filmName, filmImg } = props;
 
   return (
     <section className="film-card film-card--full">

@@ -11,7 +11,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
   const {id, filmName, filmImg, handleMouseMove} = props;
 
   return (
-    <article 
+    <article
       onMouseEnter={()=>handleMouseMove(id)}
       onMouseLeave={()=>handleMouseMove(null)}
       className="small-film-card catalog__films-card"
@@ -25,8 +25,8 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         />
       </div>
       <h3 className="small-film-card__title">
-        <Link 
-          className="small-film-card__link" 
+        <Link
+          className="small-film-card__link"
           to={AppRoute.Film.replace(':id', id.toString())}
         >
           {filmName}

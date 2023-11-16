@@ -45,7 +45,6 @@ function MyList({myFilmList}: Props): JSX.Element {
 
         <div className="catalog__films-list">
           <FilmList films={myFilmList} />
-         
         </div>
       </section>
 

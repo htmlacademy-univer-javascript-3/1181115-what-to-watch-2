@@ -55,5 +55,4 @@ export const FilmsList = [
     filmReleaseDate: 2020,
     filmImg: 'https://cdn.mos.cms.futurecdn.net/4UtEa2Kg4iCS3uTZueeCC3-1200-80.jpg'
   },
-  
 ];
