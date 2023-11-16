@@ -65,7 +65,7 @@ function Main({
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{list.length}</span>
                 </button>
               </div>
             </div>
@@ -130,7 +130,7 @@ function Main({
             </li>
           </ul>
 
-          <FilmList list={list}/>
+          <FilmList films={list}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">

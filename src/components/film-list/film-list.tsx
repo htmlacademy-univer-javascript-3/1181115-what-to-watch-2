@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Films} from '../../types';
+import { Film} from '../../types';
 import FilmCard from '../film-card.jsx/film-card';
 
+type Props = {
+  films: Film[];
+}
 
-function FilmList(list: Films): JSX.Element {
+function FilmList({films}: Props): JSX.Element {
   const [activeCard, setActiveCard] = useState<number|null>(null);
-
-  console.log(list)
 
   function handleMouseMove(id: number|null) {
     setActiveCard((activeCard)=>id);
@@ -14,7 +15,7 @@ function FilmList(list: Films): JSX.Element {
 
   return (
     <div className="catalog__films-list">
-      {list.map((film) => (
+      {films.map((film) => (
         <FilmCard key={film.id} {...film} handleMouseMove={handleMouseMove}/>
       ))}
     </div>

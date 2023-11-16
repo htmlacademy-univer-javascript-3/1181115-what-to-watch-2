@@ -1,47 +1,65 @@
-export const MyList = [
+export const MyFilmList = [
   {
     id: 10,
     filmName: 'Fantastic Beasts: The Crimes of Grindelwald',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
   },
   {
     id: 11,
     filmName: 'Bohemian Rhapsody',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/bohemian-rhapsody.jpg',
   },
   {
     id: 12,
     filmName: 'Macbeth',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/macbeth.jpg',
   },
   {
     id: 13,
     filmName: 'Aviator',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/aviator.jpg',
   },
   {
     id: 14,
     filmName: 'We need to talk about Kevin',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/we-need-to-talk-about-kevin.jpg',
   },
   {
     id: 15,
     filmName: 'What We Do in the Shadows',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/what-we-do-in-the-shadows.jpg',
   },
   {
     id: 16,
     filmName: 'Revenant',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/revenant.jpg',
   },
   {
     id: 17,
     filmName: 'Johnny English',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/johnny-english.jpg',
   },
   {
     id: 18,
     filmName: 'Shutter Island',
+    filmGenre: 'Drama',
+    filmReleaseDate: 2017,
     filmImg: 'img/shutter-island.jpg',
   },
 ];

@@ -25,7 +25,10 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={AppRoute.Film}>
+        <Link 
+          className="small-film-card__link" 
+          to={AppRoute.Film.replace(':id', id.toString())}
+        >
           {filmName}
         </Link>
       </h3>

@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import {FilmsList} from './mocs/films-list'
-import { MyList } from './mocs/my-list';
+import { MyFilmList } from './mocs/my-list';
 
 
 const mockData = {
-  id: Math.random(),
+  id: Math.floor(Math.random() * 10),
   filmName: 'The Grand Budapest Hotel',
   filmGenre: 'Drama',
   filmReleaseDate: 2004,
@@ -19,6 +19,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App list={FilmsList} myList={MyList} { ...mockData} />
+    <App list={FilmsList} myFilmList={MyFilmList} { ...mockData} />
   </React.StrictMode>
 );
