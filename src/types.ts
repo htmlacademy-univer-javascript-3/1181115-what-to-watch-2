@@ -3,4 +3,7 @@ export type Film = {
   filmName: string;
   filmGenre: string;
   filmReleaseDate: number;
+  filmImg: string;
 };
+
+export type Films = Film[];

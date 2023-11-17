@@ -48,7 +48,7 @@ function Movie(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={AppRoute.Review} className="btn film-card__button">
+                <Link to={AppRoute.AddReview} className="btn film-card__button">
                   Add review
                 </Link>
               </div>

@@ -1,10 +1,14 @@
-function Player(): JSX.Element {
+type PlayerProps = {
+  filmImg: string;
+};
+
+function Player(props: PlayerProps): JSX.Element {
   return (
     <div className="player">
       <video
-        src="#"
+        src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
         className="player__video"
-        poster="img/player-poster.jpg"
+        poster={props.filmImg}
       >
       </video>
 
@@ -35,7 +39,7 @@ function Player(): JSX.Element {
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">Transpottin</div>
 
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width="27" height="27">

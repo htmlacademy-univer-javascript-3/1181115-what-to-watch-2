@@ -1,19 +1,19 @@
-import FilmCard from '../../components/film-card.jsx/film-card';
+import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { Film } from '../../types';
+import { Film, Films } from '../../types';
 import { Link } from 'react-router-dom';
 
 
 type MainProps = Film & {
-  filmList: Film[];
+  list: Films;
 };
 
 function Main({
   filmName,
   filmGenre,
   filmReleaseDate,
-  filmList,
+  list,
 }: MainProps): JSX.Element {
   return (
     <>
@@ -65,7 +65,7 @@ function Main({
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{list.length}</span>
                 </button>
               </div>
             </div>
@@ -130,11 +130,7 @@ function Main({
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {filmList.map((film) => (
-              <FilmCard key={film.id} {...film} />
-            ))}
-          </div>
+          <FilmList films={list}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">
