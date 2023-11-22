@@ -7,7 +7,7 @@ type Props = {
 }
 
 function FilmList({films}: Props): JSX.Element {
-  const [, setActiveCard] = useState<number|null>(null);
+  const [activeCard, setActiveCard] = useState<number|null>(null);
 
   function handleMouseMove(id: number|null) {
     setActiveCard(()=>id);
@@ -16,7 +16,12 @@ function FilmList({films}: Props): JSX.Element {
   return (
     <div className="catalog__films-list">
       {films.map((film) => (
-        <FilmCard key={film.id} {...film} handleMouseMove={handleMouseMove}/>
+        <FilmCard
+          isActive={film.id === activeCard}
+          key={film.id}
+          {...film}
+          onMouseMove={handleMouseMove}
+        />
       ))}
     </div>
   );

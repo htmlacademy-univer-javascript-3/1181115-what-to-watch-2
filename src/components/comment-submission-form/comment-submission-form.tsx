@@ -28,7 +28,7 @@ function CommentSubmissionForm(): JSX.Element {
 
   return (
     <form action="#" className="add-review__form">
-      <RatingInput handleRatingChange={handleRatingChange}/>
+      <RatingInput onRatingChange={handleRatingChange}/>
 
       <div className="add-review__text">
         <textarea
