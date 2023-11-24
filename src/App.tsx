@@ -9,6 +9,7 @@ import AddReview from './pages/add-review/add-review';
 import Player from './pages/player/player';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import PrivateRoute from './components/private-route/private-route';
+import { FullInfoFilm } from './mocs/full-info-film';
 
 type AppProps = Film & {
   list: Film[];
@@ -45,7 +46,7 @@ function App(props: AppProps): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoute.Film} element={<Movie />} />
+        <Route path={AppRoute.Film} element={<Movie {...FullInfoFilm}/>} />
         <Route path={AppRoute.AddReview} element={<AddReview filmName={filmName} filmImg={filmImg}/>} />
         <Route path={AppRoute.Player} element={<Player filmImg={filmImg}/>} />
         <Route path="*" element={<NotFoundPage />} />
