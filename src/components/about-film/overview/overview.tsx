@@ -1,8 +1,10 @@
+import { v4 as uuid } from 'uuid';
+
 type OverviewProps = {
   ratingScore: number;
   ratingLevel: string;
   ratingCount: number;
-  description: string[];
+  description: string;
   director: string;
   starring: string[];
 }
@@ -12,10 +14,12 @@ const MAX_PEOPLE = 4;
 function Overview(props: OverviewProps): JSX.Element {
   const {ratingScore, ratingLevel, ratingCount, description, director, starring} = props;
 
+  const descriptionText = description.split('\n').map((d) => ({id: uuid(), paragraph: d}));
+
   return(
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{String(ratingScore).replace(/\./g, ',')}</div>
+        <div className="film-rating__score">{ratingScore.toFixed(1).replace(/\./g, ',')}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{ratingLevel}</span>
           <span className="film-rating__count">{ratingCount} ratings</span>
@@ -24,8 +28,8 @@ function Overview(props: OverviewProps): JSX.Element {
 
       <div className="film-card__text">
         {
-          description?.map((paragraph)=>(
-            <p key={paragraph.slice(0,10)}>{paragraph}</p>
+          descriptionText.map((text)=>(
+            <p key={text.id}>{text.paragraph}</p>
           ))
         }
 

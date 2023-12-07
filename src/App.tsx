@@ -1,5 +1,8 @@
+import {useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from './const';
+import { useAppDispatch } from './hooks';
+import { setFilms } from './store/action';
 import Main from './pages/main/main';
 import { Film } from './types';
 import SignIn from './pages/sign-in/sign-in';
@@ -10,14 +13,20 @@ import Player from './pages/player/player';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import PrivateRoute from './components/private-route/private-route';
 import { FullInfoFilm } from './mocs/full-info-film';
+import {FilmsList} from './mocs/films-list';
+
 
 type AppProps = Film & {
-  list: Film[];
   myFilmList: Film[];
 };
 
 function App(props: AppProps): JSX.Element {
-  const { id, filmName, filmGenre, filmReleaseDate, filmImg, list, myFilmList } = props;
+  const { id, filmName, genre, filmReleaseDate, filmImg, myFilmList } = props;
+  const dispatch = useAppDispatch();
+
+  useEffect(()=>{
+    dispatch(setFilms(FilmsList));
+  },[]);
 
   return (
     <BrowserRouter>
@@ -28,10 +37,10 @@ function App(props: AppProps): JSX.Element {
             <Main
               id={id}
               filmName={filmName}
-              filmGenre={filmGenre}
+              genre={genre}
               filmReleaseDate={filmReleaseDate}
               filmImg={filmImg}
-              list={list}
+              myFilmlist={myFilmList}
             />
           }
         />

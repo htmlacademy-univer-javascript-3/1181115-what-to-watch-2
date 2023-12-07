@@ -1,7 +1,7 @@
 export type Film = {
   id: number;
   filmName: string;
-  filmGenre: string;
+  genre: string;
   filmReleaseDate: number;
   filmImg: string;
 };
@@ -19,7 +19,7 @@ export type Review ={
 export type FullFilm ={
   id: number;
   filmName: string;
-  filmGenre: string;
+  genre: string;
   filmReleaseDate: number;
   filmImg: string;
   filmPoster: string;
@@ -27,7 +27,7 @@ export type FullFilm ={
   ratingScore: number;
   ratingLevel: string;
   ratingCount: number;
-  description: string[];
+  description: string;
   director: string;
   starring: string[];
   reviews: Review[];

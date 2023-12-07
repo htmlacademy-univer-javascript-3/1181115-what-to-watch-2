@@ -1,26 +1,26 @@
-import { Link } from 'react-router-dom';
-import { TextLink } from '../../types';
+import { Link, useLocation } from 'react-router-dom';
 
 
 type TabsProp ={
-  tabs: TextLink[];
-  onTabChange: (e:number)=> void;
-  activeTab: number;
+  tabs: string[];
 }
 
-function Tabs({tabs, onTabChange, activeTab}: TabsProp){
+function Tabs({tabs}: TabsProp){
+  const location = useLocation();
+
+  const pages = tabs.map((t)=>({label: t, href: `#${t}`}));
+  const activePage = location.hash || pages[0].href;
 
   return(
     <nav className="film-nav film-card__nav">
       <ul className="film-nav__list">
         {
-          tabs.map(((tab, i)=>(
+          pages.map(((page)=>(
             <li
-              key={tab.text}
-              className={`film-nav__item ${i === activeTab ? 'film-nav__item--active' : ''}`}
-              onClick={()=>onTabChange(i)}
+              key={page.href}
+              className={`film-nav__item ${page.href === activePage ? 'film-nav__item--active' : ''}`}
             >
-              <Link to="#" className="film-nav__link">{tab.text}</Link>
+              <Link to={page.href} className="film-nav__link">{page.label}</Link>
             </li>
           )))
         }

@@ -8,14 +8,19 @@ type ReviewsBlockProps = {
 const MAX_COL = 2;
 
 function FilmReview(review:Review): JSX.Element{
+  const date = new Date(review.date);
   return(
-    <div className="review" key={review.id}>
+    <div className="review">
       <blockquote className="review__quote">
         <p className="review__text">{review.text}</p>
 
         <footer className="review__details">
           <cite className="review__author">{review.author}</cite>
-          <time className="review__date" dateTime="2015-11-18">{review.date}</time>
+          <time className="review__date" dateTime={review.date}>
+            {date.toLocaleString('en', { month: 'long' })}&nbsp;
+            {date.toLocaleString('en', { day: 'numeric' })},&nbsp;
+            {date.toLocaleString('en', { year: 'numeric' })}
+          </time>
         </footer>
       </blockquote>
 
@@ -31,17 +36,17 @@ function ReviewsBlock(props: ReviewsBlockProps): JSX.Element {
 
   return(
     <div className="film-card__reviews film-card__row">
-      <div className="film-card__reviews-col">
+      <div className="film-card__reviews-col" >
         {
           reviews?.slice(0, maxReviewNumber).map((review)=>(
-            FilmReview(review)
+            <FilmReview key={review.id} {...review}/>
           ))
         }
       </div>
-      <div className="film-card__reviews-col">
+      <div className="film-card__reviews-col" >
         {
           reviews?.slice(maxReviewNumber).map((review)=>(
-            FilmReview(review)
+            <FilmReview key={review.id} {...review} />
           ))
         }
       </div>

@@ -5,12 +5,12 @@ type DetailsProps = {
   director: string;
   starring: string[];
   runTime: string;
-  filmGenre: string;
+  genre: string;
   filmReleaseDate: number;
 }
 
 function Details(props: DetailsProps): JSX.Element{
-  const { director, starring, runTime, filmGenre, filmReleaseDate} = props;
+  const { director, starring, runTime, genre, filmReleaseDate} = props;
 
   return(
     <div className="film-card__text film-card__row">
@@ -40,7 +40,7 @@ function Details(props: DetailsProps): JSX.Element{
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{filmGenre}</span>
+          <span className="film-card__details-value">{genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
