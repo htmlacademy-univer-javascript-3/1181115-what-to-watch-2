@@ -55,4 +55,32 @@ export const FilmsList = [
     filmReleaseDate: 2020,
     filmImg: 'https://cdn.mos.cms.futurecdn.net/4UtEa2Kg4iCS3uTZueeCC3-1200-80.jpg'
   },
+  {
+    id: 9,
+    filmName: 'Say Anything...',
+    genre: 'Romance',
+    filmReleaseDate: 1989,
+    filmImg: 'https://images2.minutemediacdn.com/image/upload/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/shape/cover/sport/sayanything-hed-728edd393579796c9826b940c944625d.jpg',
+  },
+  {
+    id: 11,
+    filmName: 'Dolittle',
+    genre: 'Comedy',
+    filmReleaseDate: 2020,
+    filmImg: 'https://cdn.mos.cms.futurecdn.net/4UtEa2Kg4iCS3uTZueeCC3-1200-80.jpg'
+  },
+  {
+    id: 12,
+    filmName: 'Dolittle',
+    genre: 'Adventure',
+    filmReleaseDate: 2020,
+    filmImg: 'https://cdn.mos.cms.futurecdn.net/4UtEa2Kg4iCS3uTZueeCC3-1200-80.jpg'
+  },
+  {
+    id: 13,
+    filmName: 'Dolittle',
+    genre: 'Comedy',
+    filmReleaseDate: 2020,
+    filmImg: 'https://cdn.mos.cms.futurecdn.net/4UtEa2Kg4iCS3uTZueeCC3-1200-80.jpg'
+  },
 ];
