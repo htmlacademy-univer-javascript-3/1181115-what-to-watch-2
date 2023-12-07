@@ -1,5 +1,4 @@
-import { useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { FullFilm } from '../../types';
 import Footer from '../../components/footer/footer';
@@ -11,20 +10,14 @@ import Overview from '../../components/about-film/overview/overview';
 import Details from '../../components/about-film/details/details';
 import ReviewsBlock from '../../components/about-film/reviews/reviews';
 import Tabs from '../../components/tabs/tabs';
+import {FilmPageTab} from '../../const';
 
 
 function Movie(props: FullFilm): JSX.Element {
-  const filmDescriptionTabs = [
-    { link: '#', text: 'Overview'},
-    { link: '#', text: 'Details'},
-    { link: '#', text: 'Reviews'},
-  ];
+  const location = useLocation();
+  const activePage = location.hash.slice(1);
 
-  const [selectedTab, setSelectedTab] = useState<number>(0);
-
-  function handleTabChange(id:number) {
-    setSelectedTab(id);
-  }
+  const filmDescriptionTabs = Array.from(Object.values(FilmPageTab),(x) =>(x));
 
   return (
     <div>
@@ -44,7 +37,7 @@ function Movie(props: FullFilm): JSX.Element {
             <div className="film-card__desc">
               <h2 className="film-card__title">{props.filmName}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.filmGenre}</span>
+                <span className="film-card__genre">{props.genre}</span>
                 <span className="film-card__year">{props.filmReleaseDate}</span>
               </p>
 
@@ -72,9 +65,9 @@ function Movie(props: FullFilm): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <Tabs tabs={filmDescriptionTabs} onTabChange={handleTabChange} activeTab={selectedTab}/>
+              <Tabs tabs={filmDescriptionTabs}/>
               {
-                (selectedTab === 0) &&
+                (activePage === '' || activePage === filmDescriptionTabs[0]) &&
                   <Overview
                     ratingScore={props.ratingScore}
                     ratingLevel={props.ratingLevel}
@@ -85,17 +78,17 @@ function Movie(props: FullFilm): JSX.Element {
                   />
               }
               {
-                (selectedTab === 1) &&
+                (activePage === filmDescriptionTabs[1]) &&
                   <Details
                     director={props.director}
                     starring={props.starring}
                     runTime={props.runTime}
-                    filmGenre={props.filmGenre}
+                    genre={props.genre}
                     filmReleaseDate={props.filmReleaseDate}
                   />
               }
               {
-                (selectedTab === 2) &&
+                (activePage === filmDescriptionTabs[2]) &&
                   <ReviewsBlock reviews={props.reviews}/>
               }
             </div>

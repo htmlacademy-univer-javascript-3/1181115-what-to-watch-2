@@ -12,3 +12,8 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
 }
 
+export enum FilmPageTab {
+  Overview = 'Overview',
+  Details = 'Details',
+  Reviews ='Reviews',
+}

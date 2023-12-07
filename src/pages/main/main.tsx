@@ -1,20 +1,38 @@
+import {useMemo} from 'react';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
+import GenreList from '../../components/genre-list/genre-list';
 import Header from '../../components/header/header';
+import { useAppSelector } from '../../hooks';
 import { Film, Films } from '../../types';
-import { Link } from 'react-router-dom';
 
 
 type MainProps = Film & {
-  list: Films;
+  myFilmlist: Films;
 };
 
 function Main({
   filmName,
-  filmGenre,
+  genre,
   filmReleaseDate,
-  list,
+  myFilmlist,
 }: MainProps): JSX.Element {
+
+  const activeGenreHash = useAppSelector((state)=>state.genre);
+  const activeGenre = activeGenreHash.slice(1);
+
+  const list = useAppSelector((state)=>state.films);
+
+  const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
+
+  const filteredCards = useMemo(
+    () => (
+      (!activeGenre) ?
+        list :
+        list.filter((film)=> film.genre === activeGenre)),
+    [list, activeGenre]
+  );
+
   return (
     <>
       <section className="film-card">
@@ -43,7 +61,7 @@ function Main({
             <div className="film-card__desc">
               <h2 className="film-card__title">{filmName}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{filmGenre}</span>
+                <span className="film-card__genre">{genre}</span>
                 <span className="film-card__year">{filmReleaseDate}</span>
               </p>
 
@@ -65,7 +83,7 @@ function Main({
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{list.length}</span>
+                  <span className="film-card__count">{myFilmlist.length}</span>
                 </button>
               </div>
             </div>
@@ -76,61 +94,9 @@ function Main({
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
+          <GenreList genres={genres} />
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <Link to="#" className="catalog__genres-link">
-                All genres
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Comedies
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Crime
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Documentary
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Dramas
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Horror
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Kids & Family
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Romance
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Sci-Fi
-              </Link>
-            </li>
-            <li className="catalog__genres-item">
-              <Link to="#" className="catalog__genres-link">
-                Thrillers
-              </Link>
-            </li>
-          </ul>
-
-          <FilmList films={list}/>
+          <FilmList films={filteredCards}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">
