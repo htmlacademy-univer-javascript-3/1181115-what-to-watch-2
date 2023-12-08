@@ -1,15 +1,18 @@
-import {useMemo} from 'react';
+import { useMemo, useState } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
 import { Film, Films } from '../../types';
+import ShowMore from '../../components/show-more/show-more';
 
 
 type MainProps = Film & {
   myFilmlist: Films;
 };
+
+const CARD_LIMIT = 8;
 
 function Main({
   filmName,
@@ -20,8 +23,8 @@ function Main({
 
   const activeGenreHash = useAppSelector((state)=>state.genre);
   const activeGenre = activeGenreHash.slice(1);
-
   const list = useAppSelector((state)=>state.films);
+  const [limit, setLimit] = useState(CARD_LIMIT);
 
   const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
 
@@ -32,6 +35,12 @@ function Main({
         list.filter((film)=> film.genre === activeGenre)),
     [list, activeGenre]
   );
+
+  const filteredCardsWithLimit = useMemo(()=>filteredCards.slice(0, limit), [filteredCards, limit]);
+
+  const handleMoreClick = () => {
+    setLimit((l) => l + CARD_LIMIT);
+  };
 
   return (
     <>
@@ -96,13 +105,11 @@ function Main({
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenreList genres={genres} />
 
-          <FilmList films={filteredCards}/>
+          <FilmList films={filteredCardsWithLimit}/>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
+          { filteredCards.length > limit && (
+            <ShowMore onClickMore={handleMoreClick} />
+          )}
         </section>
         <Footer/>
       </div>
