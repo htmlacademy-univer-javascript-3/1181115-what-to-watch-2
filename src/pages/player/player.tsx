@@ -1,14 +1,11 @@
-type PlayerProps = {
-  filmImg: string;
-};
 
-function Player(props: PlayerProps): JSX.Element {
+function Player(): JSX.Element {
   return (
     <div className="player">
       <video
         src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
         className="player__video"
-        poster={props.filmImg}
+        poster='img/bg-the-grand-budapest-hotel.jpg'
       >
       </video>
 

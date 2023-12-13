@@ -1,14 +1,14 @@
 import CommentSubmissionForm from '../../components/comment-submission-form/comment-submission-form';
 
-type ReviewProps = {
-  filmName: string;
-  filmImg: string;
-};
+// type ReviewProps = {
+//   filmName: string;
+//   filmImg: string;
+// };
 
 
-function AddReview(props: ReviewProps): JSX.Element {
+function AddReview(): JSX.Element {
 
-  const { filmName, filmImg } = props;
+  // const { filmName, filmImg } = props;
 
   return (
     <section className="film-card film-card--full">
@@ -34,7 +34,7 @@ function AddReview(props: ReviewProps): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{filmName}</a>
+                {/* <a href="film-page.html" className="breadcrumbs__link">{filmName}</a> */}
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -56,8 +56,8 @@ function AddReview(props: ReviewProps): JSX.Element {
 
         <div className="film-card__poster film-card__poster--small">
           <img
-            src={filmImg}
-            alt={filmName}
+            // src={filmImg}
+            // alt={filmName}
             width="218"
             height="327"
           />

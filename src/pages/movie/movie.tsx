@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { FullFilm } from '../../types';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import FilmList from '../../components/film-list/film-list';
@@ -11,13 +10,21 @@ import Details from '../../components/about-film/details/details';
 import ReviewsBlock from '../../components/about-film/reviews/reviews';
 import Tabs from '../../components/tabs/tabs';
 import {FilmPageTab} from '../../const';
+import { useAppSelector } from '../../hooks';
+import { fullInfoFilm } from '../../mocs/full-info-film';
 
 
-function Movie(props: FullFilm): JSX.Element {
+const CARD_LIMIT = 4;
+
+
+function Movie(): JSX.Element {
   const location = useLocation();
   const activePage = location.hash.slice(1);
 
   const filmDescriptionTabs = Array.from(Object.values(FilmPageTab),(x) =>(x));
+
+  const list = useAppSelector((state)=>state.films);
+  const similarFilms = list.filter((film)=> film.genre === fullInfoFilm.genre).slice(0, CARD_LIMIT);
 
   return (
     <div>
@@ -25,8 +32,8 @@ function Movie(props: FullFilm): JSX.Element {
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img
-              src={props.filmImg}
-              alt={props.filmName}
+              src={fullInfoFilm.filmImg}
+              alt={fullInfoFilm.filmName}
             />
           </div>
 
@@ -35,17 +42,17 @@ function Movie(props: FullFilm): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.filmName}</h2>
+              <h2 className="film-card__title">{fullInfoFilm.filmName}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.genre}</span>
-                <span className="film-card__year">{props.filmReleaseDate}</span>
+                <span className="film-card__genre">{fullInfoFilm.genre}</span>
+                <span className="film-card__year">{fullInfoFilm.filmReleaseDate}</span>
               </p>
 
               <div className="film-card__buttons">
                 <PlayButton />
                 <AddToListButton/>
 
-                <Link to={AppRoute.AddReview.replace(':id', props.id.toString())} className="btn film-card__button">
+                <Link to={AppRoute.AddReview.replace(':id', fullInfoFilm.id.toString())} className="btn film-card__button">
                   Add review
                 </Link>
               </div>
@@ -57,8 +64,8 @@ function Movie(props: FullFilm): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={props.filmPoster}
-                alt={props.filmName}
+                src={fullInfoFilm.filmPoster}
+                alt={fullInfoFilm.filmName}
                 width="218"
                 height="327"
               />
@@ -69,27 +76,27 @@ function Movie(props: FullFilm): JSX.Element {
               {
                 (activePage === '' || activePage === filmDescriptionTabs[0]) &&
                   <Overview
-                    ratingScore={props.ratingScore}
-                    ratingLevel={props.ratingLevel}
-                    ratingCount={props.ratingCount}
-                    description={props.description}
-                    director={props.director}
-                    starring={props.starring}
+                    ratingScore={fullInfoFilm.ratingScore}
+                    ratingLevel={fullInfoFilm.ratingLevel}
+                    ratingCount={fullInfoFilm.ratingCount}
+                    description={fullInfoFilm.description}
+                    director={fullInfoFilm.director}
+                    starring={fullInfoFilm.starring}
                   />
               }
               {
                 (activePage === filmDescriptionTabs[1]) &&
                   <Details
-                    director={props.director}
-                    starring={props.starring}
-                    runTime={props.runTime}
-                    genre={props.genre}
-                    filmReleaseDate={props.filmReleaseDate}
+                    director={fullInfoFilm.director}
+                    starring={fullInfoFilm.starring}
+                    runTime={fullInfoFilm.runTime}
+                    genre={fullInfoFilm.genre}
+                    filmReleaseDate={fullInfoFilm.filmReleaseDate}
                   />
               }
               {
                 (activePage === filmDescriptionTabs[2]) &&
-                  <ReviewsBlock reviews={props.reviews}/>
+                  <ReviewsBlock reviews={fullInfoFilm.reviews}/>
               }
             </div>
           </div>
@@ -99,7 +106,7 @@ function Movie(props: FullFilm): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={props.moreLikeThis} />
+          <FilmList films={similarFilms} />
         </section>
 
         <Footer/>

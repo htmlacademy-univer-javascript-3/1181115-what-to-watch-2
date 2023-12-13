@@ -17,3 +17,9 @@ export enum FilmPageTab {
   Details = 'Details',
   Reviews ='Reviews',
 }
+
+export enum APIRoute {
+  Films = '/films',
+  PromoFilm = '/promo',
+  MyFilms ='/favorite',
+}

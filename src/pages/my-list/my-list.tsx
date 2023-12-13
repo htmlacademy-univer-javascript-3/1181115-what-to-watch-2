@@ -1,13 +1,20 @@
+import { useAppSelector } from '../../hooks';
+
 import Footer from '../../components/footer/footer';
 import FilmList from '../../components/film-list/film-list';
-import { Film } from '../../types';
-
-type Props = {
-  myFilmList: Film[];
-}
+import LoadingBlock from '../../components/loading-block/loading-block';
 
 
-function MyList({myFilmList}: Props): JSX.Element {
+function MyList(): JSX.Element {
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
+  const myFilmList = useAppSelector((state) => state.films);
+
+
+  if (isDataLoading) {
+    return (
+      <LoadingBlock />
+    );
+  }
 
   return (
     <div className="user-page">

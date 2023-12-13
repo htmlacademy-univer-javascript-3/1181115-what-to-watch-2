@@ -1,12 +1,23 @@
 export type Film = {
   id: number;
-  filmName: string;
+  name: string;
   genre: string;
-  filmReleaseDate: number;
-  filmImg: string;
+  previewVideoLink: string;
+  previewImage: string;
 };
 
 export type Films = Film[];
+
+export type PromoFilm = {
+  id: string;
+  name: string;
+  posterImage: string;
+  backgroundImage: string;
+  videoLink: string;
+  genre: string;
+  released: number;
+  isFavorite: boolean;
+}
 
 export type Review ={
   id: number;

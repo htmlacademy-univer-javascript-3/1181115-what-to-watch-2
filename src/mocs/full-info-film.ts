@@ -1,4 +1,4 @@
-export const FullInfoFilm = {
+export const fullInfoFilm = {
   id: 1,
   filmName: 'The Grand Budapest Hotel',
   genre: 'Drama',

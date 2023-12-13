@@ -1,30 +1,36 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Header from '../../components/header/header';
-import { useAppSelector } from '../../hooks';
-import { Film, Films } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
 import ShowMore from '../../components/show-more/show-more';
+import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions';
+import LoadingBlock from '../../components/loading-block/loading-block';
+import PlayButton from '../../components/buttons/play-button/play-button';
 
-
-type MainProps = Film & {
-  myFilmlist: Films;
-};
 
 const CARD_LIMIT = 8;
 
-function Main({
-  filmName,
-  genre,
-  filmReleaseDate,
-  myFilmlist,
-}: MainProps): JSX.Element {
 
+function Main(): JSX.Element {
+
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
   const activeGenreHash = useAppSelector((state)=>state.genre);
+  const dispatch = useAppDispatch();
+
   const activeGenre = activeGenreHash.slice(1);
   const list = useAppSelector((state)=>state.films);
+  const promo = useAppSelector((state)=>state.promo);
   const [limit, setLimit] = useState(CARD_LIMIT);
+
+
+  useEffect(()=>{
+    dispatch(fetchPromoAction());
+    dispatch(fetchFilmsAction());
+  },[]);
+
 
   const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
 
@@ -43,77 +49,71 @@ function Main({
   };
 
   return (
-    <>
-      <section className="film-card">
-        <div className="film-card__bg">
-          <img
-            src="img/bg-the-grand-budapest-hotel.jpg"
-            alt="The Grand Budapest Hotel"
-          />
-        </div>
+    (isDataLoading) ? <LoadingBlock /> :
+      <>
+        <section className="film-card">
+          <div className="film-card__bg">
+            <img
+              src={promo.backgroundImage}
+              alt={promo.name}
+            />
+          </div>
 
-        <h1 className="visually-hidden">WTW</h1>
+          <h1 className="visually-hidden">WTW</h1>
 
-        <Header/>
+          <Header/>
 
-        <div className="film-card__wrap">
-          <div className="film-card__info">
-            <div className="film-card__poster">
-              <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
-                width="218"
-                height="327"
-              />
-            </div>
+          <div className="film-card__wrap">
+            <div className="film-card__info">
+              <div className="film-card__poster">
+                <img
+                  src={promo.posterImage}
+                  alt={promo.name}
+                  width="218"
+                  height="327"
+                />
+              </div>
 
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{filmName}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{filmReleaseDate}</span>
-              </p>
+              <div className="film-card__desc">
+                <h2 className="film-card__title">{promo.name}</h2>
+                <p className="film-card__meta">
+                  <span className="film-card__genre">{promo.genre}</span>
+                  <span className="film-card__year">{promo.released}</span>
+                </p>
 
-              <div className="film-card__buttons">
-                <button
-                  className="btn btn--play film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{myFilmlist.length}</span>
-                </button>
+                <div className="film-card__buttons">
+
+                  <PlayButton/>
+                  <button
+                    className="btn btn--list film-card__button"
+                    type="button"
+                  >
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                    <span>My list</span>
+                    <span className="film-card__count">{/*myFilmlist.length*/}</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <div className="page-content">
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList genres={genres} />
-
-          <FilmList films={filteredCardsWithLimit}/>
-
-          { filteredCards.length > limit && (
-            <ShowMore onClickMore={handleMoreClick} />
-          )}
         </section>
-        <Footer/>
-      </div>
-    </>
+
+        <div className="page-content">
+          <section className="catalog">
+            <h2 className="catalog__title visually-hidden">Catalog</h2>
+            <GenreList genres={genres} />
+
+            <FilmList films={filteredCardsWithLimit}/>
+
+            { filteredCards.length > limit && (
+              <ShowMore onClickMore={handleMoreClick} />
+            )}
+          </section>
+          <Footer/>
+        </div>
+      </>
   );
 }
 
