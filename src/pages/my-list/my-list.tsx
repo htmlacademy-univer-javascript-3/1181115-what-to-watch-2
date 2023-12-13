@@ -1,20 +1,13 @@
-import {useEffect} from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchMyFilmsAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks';
+
 import Footer from '../../components/footer/footer';
 import FilmList from '../../components/film-list/film-list';
 import LoadingBlock from '../../components/loading-block/loading-block';
 
 
 function MyList(): JSX.Element {
-  const dispatch = useAppDispatch();
   const isDataLoading = useAppSelector((state) => state.isDataLoading);
   const myFilmList = useAppSelector((state) => state.films);
-
-
-  useEffect(()=>{
-    dispatch(fetchMyFilmsAction());
-  },[]);
 
 
   if (isDataLoading) {
