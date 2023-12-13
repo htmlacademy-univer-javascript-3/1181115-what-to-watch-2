@@ -1,3 +1,4 @@
+import * as dayjs from 'dayjs';
 import { Review } from '../../../types';
 
 
@@ -8,7 +9,7 @@ type ReviewsBlockProps = {
 const MAX_COL = 2;
 
 function FilmReview(review:Review): JSX.Element{
-  const date = new Date(review.date);
+
   return(
     <div className="review">
       <blockquote className="review__quote">
@@ -17,14 +18,12 @@ function FilmReview(review:Review): JSX.Element{
         <footer className="review__details">
           <cite className="review__author">{review.author}</cite>
           <time className="review__date" dateTime={review.date}>
-            {date.toLocaleString('en', { month: 'long' })}&nbsp;
-            {date.toLocaleString('en', { day: 'numeric' })},&nbsp;
-            {date.toLocaleString('en', { year: 'numeric' })}
+            {dayjs(review.date).format('MMMM D, YYYY')}
           </time>
         </footer>
       </blockquote>
 
-      <div className="review__rating">{String(review.ratingScore).replace(/\./g, ',')}</div>
+      <div className="review__rating">{review.ratingScore.toFixed(1).replace(/\./g, ',')}</div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ type FilmCardProps = Film & {
 };
 
 function FilmCard(props: FilmCardProps): JSX.Element {
-  const {id, filmName, filmImg, onMouseMove, isActive} = props;
+  const {id, name, previewImage, previewVideoLink, onMouseMove, isActive} = props;
 
   return (
     <article
@@ -20,10 +20,10 @@ function FilmCard(props: FilmCardProps): JSX.Element {
     >
       <div className="small-film-card__image">
         <VideoPreview
-          src="https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm"
+          src={previewVideoLink}
           isActive={isActive}
-          poster={filmImg}
-          name={filmName}
+          poster={previewImage}
+          name={name}
         />
       </div>
       <h3 className="small-film-card__title">
@@ -31,7 +31,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
           className="small-film-card__link"
           to={AppRoute.Film.replace(':id', id.toString())}
         >
-          {filmName}
+          {name}
         </Link>
       </h3>
     </article>

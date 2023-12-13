@@ -1,6 +1,6 @@
+import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { FullFilm } from '../../types';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import FilmList from '../../components/film-list/film-list';
@@ -11,14 +11,21 @@ import Details from '../../components/about-film/details/details';
 import ReviewsBlock from '../../components/about-film/reviews/reviews';
 import Tabs from '../../components/tabs/tabs';
 import {FilmPageTab} from '../../const';
+import { useAppSelector } from '../../hooks';
 
 
-function Movie(props: FullFilm): JSX.Element {
+const CARD_LIMIT = 4;
+
+
+function Movie(): JSX.Element {
   const location = useLocation();
   const activePage = location.hash.slice(1);
 
-  const filmDescriptionTabs = Array.from(Object.values(FilmPageTab),(x) =>(x));
+  const filmDescriptionTabs = useMemo(() => Array.from(Object.values(FilmPageTab),(x) =>(x)), [FilmPageTab]);
 
+  const list = useAppSelector((state)=>state.films);
+  const similarFilms = list.filter((film)=> film.genre === props.genre).slice(0, CARD_LIMIT);
+  console.log(similarFilms);
   return (
     <div>
       <section className="film-card film-card--full">
@@ -99,7 +106,7 @@ function Movie(props: FullFilm): JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={props.moreLikeThis} />
+          <FilmList films={similarFilms} />
         </section>
 
         <Footer/>
