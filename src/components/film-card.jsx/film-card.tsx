@@ -18,22 +18,22 @@ function FilmCard(props: FilmCardProps): JSX.Element {
       onMouseLeave={()=>onMouseMove(null)}
       className="small-film-card catalog__films-card"
     >
-      <div className="small-film-card__image">
-        <VideoPreview
-          src={previewVideoLink}
-          isActive={isActive}
-          poster={previewImage}
-          name={name}
-        />
-      </div>
-      <h3 className="small-film-card__title">
-        <Link
-          className="small-film-card__link"
-          to={AppRoute.Film.replace(':id', id.toString())}
-        >
+      <Link
+        to={AppRoute.Film.replace(':id', id.toString())}
+        className="small-film-card__link"
+      >
+        <div className="small-film-card__image">
+          <VideoPreview
+            src={previewVideoLink}
+            isActive={isActive}
+            poster={previewImage}
+            name={name}
+          />
+        </div>
+        <h3 className="small-film-card__title">
           {name}
-        </Link>
-      </h3>
+        </h3>
+      </Link>
     </article>
   );
 }

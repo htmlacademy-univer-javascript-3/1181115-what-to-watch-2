@@ -6,7 +6,7 @@ import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import ShowMore from '../../components/show-more/show-more';
-import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions';
+import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-film-actions';
 import LoadingBlock from '../../components/loading-block/loading-block';
 import PlayButton from '../../components/buttons/play-button/play-button';
 
@@ -16,13 +16,13 @@ const CARD_LIMIT = 8;
 
 function Main(): JSX.Element {
 
-  const isDataLoading = useAppSelector((state) => state.isDataLoading);
-  const activeGenreHash = useAppSelector((state)=>state.genre);
+  const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
+  const activeGenreHash = useAppSelector((state)=>state.films.genre);
   const dispatch = useAppDispatch();
 
   const activeGenre = activeGenreHash.slice(1);
-  const list = useAppSelector((state)=>state.films);
-  const promo = useAppSelector((state)=>state.promo);
+  const list = useAppSelector((state)=>state.films.films);
+  const promo = useAppSelector((state)=>state.films.promo);
   const [limit, setLimit] = useState(CARD_LIMIT);
 
 

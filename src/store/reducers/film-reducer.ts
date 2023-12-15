@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setFilms, setActiveGenre, loadFilms, setFilmsDataLoadingStatus, loadPromo } from './action';
-import { Film, PromoFilm } from '../types';
+import { setActiveGenre, loadFilms, setFilmsDataLoadingStatus, loadPromo } from '../action';
+import { Film, PromoFilm } from '../../types';
 
 
 export type StateType = {
@@ -26,7 +26,7 @@ const initialState: StateType = {
   isDataLoading: false,
 };
 
-const reducer = createReducer(initialState, (builder)=>{
+const filmReducer = createReducer(initialState, (builder)=>{
   builder
     .addCase(loadFilms, (state, action) =>{
       state.films = action.payload;
@@ -41,11 +41,7 @@ const reducer = createReducer(initialState, (builder)=>{
 
     .addCase(setActiveGenre,(state, action) => {
       state.genre = action.payload;
-    })
-
-    .addCase(setFilms,(state, action) => {
-      state.films = action.payload;
     });
 });
 
-export {reducer};
+export {filmReducer};

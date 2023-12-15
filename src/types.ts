@@ -45,7 +45,14 @@ export type FullFilm ={
   moreLikeThis: Film[];
 };
 
-export type TextLink={
-  link: string;
-  text: string;
+export type AuthData={
+  login: string;
+  password: string;
+};
+
+export type UserData = {
+  name: string;
+  avatarUrl: string;
+  email: string;
+  token: string;
 };

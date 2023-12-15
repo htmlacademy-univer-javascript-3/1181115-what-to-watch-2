@@ -10,6 +10,7 @@ export enum AppRoute {
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
 }
 
 export enum FilmPageTab {
@@ -22,4 +23,6 @@ export enum APIRoute {
   Films = '/films',
   PromoFilm = '/promo',
   MyFilms ='/favorite',
+  Login = '/login',
+  Logout ='/logout'
 }
