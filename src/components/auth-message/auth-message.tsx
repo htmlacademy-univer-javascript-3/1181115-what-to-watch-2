@@ -1,14 +1,19 @@
+import { useAppSelector } from '../../hooks';
+
 type MessageProps = {
   message: string;
 };
 
 
 function AuthMessage({message}: MessageProps): JSX.Element | null {
+  const error = useAppSelector((state)=> state.user.error);
 
-  return (message)
+  const showedMessage = message || error;
+
+  return (showedMessage)
     ? (
       <div className="sign-in__message">
-        <p>{message}</p>
+        <p>{showedMessage}</p>
       </div>
     )
     : null;
