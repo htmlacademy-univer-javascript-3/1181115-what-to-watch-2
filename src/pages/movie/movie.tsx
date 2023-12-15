@@ -23,7 +23,7 @@ function Movie(): JSX.Element {
 
   const filmDescriptionTabs = Array.from(Object.values(FilmPageTab),(x) =>(x));
 
-  const list = useAppSelector((state)=>state.films);
+  const list = useAppSelector((state)=>state.films.films);
   const similarFilms = list.filter((film)=> film.genre === fullInfoFilm.genre).slice(0, CARD_LIMIT);
 
   return (

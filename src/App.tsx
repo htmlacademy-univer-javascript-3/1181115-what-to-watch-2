@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from './const';
+import { AppRoute } from './const';
 import Main from './pages/main/main';
 import SignIn from './pages/sign-in/sign-in';
 import MyList from './pages/my-list/my-list';
@@ -25,9 +25,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            // <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-
+            <PrivateRoute >
               <MyList />
             </PrivateRoute>
           }
