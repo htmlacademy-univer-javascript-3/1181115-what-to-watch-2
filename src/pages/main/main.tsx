@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, memo } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
@@ -9,14 +9,19 @@ import ShowMore from '../../components/show-more/show-more';
 import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-film-actions';
 import LoadingBlock from '../../components/loading-block/loading-block';
 import PlayButton from '../../components/buttons/play-button/play-button';
+import AddToListButton from '../../components/buttons/add-to-list-button.tsx/add-to-list-button';
+import { AuthorizationStatus } from '../../const';
+import { getToken } from '../../api/token';
 
 
 const CARD_LIMIT = 8;
 
+const MemoizedAddTolistButton = memo(AddToListButton);
 
 function Main(): JSX.Element {
 
   const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
+  const authStatus = useAppSelector((state) => state.user.authorizationStatus);
   const activeGenreHash = useAppSelector((state)=>state.films.genre);
   const dispatch = useAppDispatch();
 
@@ -47,6 +52,7 @@ function Main(): JSX.Element {
   const handleMoreClick = () => {
     setLimit((l) => l + CARD_LIMIT);
   };
+
 
   return (
     (isDataLoading) ? <LoadingBlock /> :
@@ -84,16 +90,10 @@ function Main(): JSX.Element {
                 <div className="film-card__buttons">
 
                   <PlayButton/>
-                  <button
-                    className="btn btn--list film-card__button"
-                    type="button"
-                  >
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">{/*myFilmlist.length*/}</span>
-                  </button>
+
+                  {(authStatus === AuthorizationStatus.Auth || getToken() !== '') && <MemoizedAddTolistButton />}
+
+
                 </div>
               </div>
             </div>

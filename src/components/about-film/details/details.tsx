@@ -1,29 +1,23 @@
 import { Fragment} from 'react';
+import { useAppSelector } from '../../../hooks';
 
 
-type DetailsProps = {
-  director: string;
-  starring: string[];
-  runTime: string;
-  genre: string;
-  filmReleaseDate: number;
-}
-
-function Details(props: DetailsProps): JSX.Element{
-  const { director, starring, runTime, genre, filmReleaseDate} = props;
+function Details(): JSX.Element | null{
+  const fullFilm = useAppSelector((state) => state.films.fullFilm);
 
   return(
+    (fullFilm) &&
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{director}</span>
+          <span className="film-card__details-value">{fullFilm.director}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {
-              starring.map((name) =>(
+              fullFilm?.starring.map((name) =>(
                 <Fragment key={name}>
                   {name}<br/>
                 </Fragment>
@@ -36,15 +30,15 @@ function Details(props: DetailsProps): JSX.Element{
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{runTime}</span>
+          <span className="film-card__details-value">{fullFilm.runTime}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{genre}</span>
+          <span className="film-card__details-value">{fullFilm.genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{filmReleaseDate}</span>
+          <span className="film-card__details-value">{fullFilm.released}</span>
         </p>
       </div>
     </div>

@@ -22,7 +22,11 @@ export enum FilmPageTab {
 export enum APIRoute {
   Films = '/films',
   PromoFilm = '/promo',
+  SimilarFilms = '/films/:id/similar',
+  FullFilm = '/films/:id',
   MyFilms ='/favorite',
   Login = '/login',
-  Logout ='/logout'
+  Logout ='/logout',
+  ChangeFilmStatus ='/favorite/:id/:status',
+  UserComments ='/comments/:id',
 }

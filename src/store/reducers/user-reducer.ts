@@ -8,6 +8,7 @@ export type StateType = {
   user: UserData;
   authorizationStatus: string;
   error: string | null;
+  isAuthLoading: boolean;
 };
 
 const initialState: StateType = {
@@ -17,6 +18,7 @@ const initialState: StateType = {
     email: '',
     token: '',
   },
+  isAuthLoading: false,
   authorizationStatus: AuthorizationStatus.NoAuth,
   error: null,
 };
