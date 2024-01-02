@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadComments } from '../action';
 import { UserComment } from '../../types';
+import { fetchUsersCommentsAction } from '../api-actions/api-review-action';
 
 
 export type StateType = {
@@ -15,8 +15,17 @@ const initialState: StateType = {
 
 const reviewReducer = createReducer(initialState, (builder)=>{
   builder
-    .addCase(loadComments, (state, action) => {
+    .addCase(fetchUsersCommentsAction.pending, (state) =>{
+      state.isCommentsLoading = true;
+    })
+
+    .addCase(fetchUsersCommentsAction.fulfilled, (state,action) =>{
+      state.isCommentsLoading = false;
       state.userComments = action.payload;
+    })
+
+    .addCase(fetchUsersCommentsAction.rejected, (state) =>{
+      state.isCommentsLoading = false;
     });
 });
 

@@ -1,9 +1,9 @@
-import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
 import { getToken } from './token';
+import { toast } from 'react-toastify';
+import { ErrorType } from '../types';
+import { BASE_URL, REQUEST_TIMEOUT } from './const';
 
-
-const BASE_URL = 'https://13.design.pages.academy/wtw';
-const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
@@ -22,6 +22,19 @@ export const createAPI = (): AxiosInstance => {
       return config;
     }
   );
+
+  api.interceptors.request.use(
+    (response)=> response,
+    (error: AxiosError<ErrorType>)=>{
+      if (error.response){
+        const detailMessage = (error.response.data);
+
+        toast.warn(detailMessage.message);
+      }
+      throw error;
+    }
+  );
+
 
   return api;
 };

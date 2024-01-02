@@ -1,3 +1,6 @@
+import { AxiosInstance } from 'axios';
+import { State } from './store/state';
+
 export type Film = {
   id: string;
   name: string;
@@ -34,7 +37,7 @@ export type FullFilm ={
   released: number;
   backgroundImage: string;
   posterImage: string;
-  runTime: string;
+  runTime: number;
   rating: number;
   scoresCount: number;
   description: string;
@@ -64,6 +67,17 @@ export type UserData = {
 };
 
 export type ErrorType = {
-  errorType: string;
-  message: string;
+  errorType?: string;
+  message?: string;
+}
+
+export type AddCommentRequest = {
+  filmId: string;
+  comment: string;
+  rating: number;
+}
+
+export type AsyncActionConfig ={
+  state: State;
+  extra: AxiosInstance;
 }

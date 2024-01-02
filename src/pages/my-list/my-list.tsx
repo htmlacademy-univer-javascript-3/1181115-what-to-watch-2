@@ -6,17 +6,17 @@ import LoadingBlock from '../../components/loading-block/loading-block';
 import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
 import { useEffect } from 'react';
-import { fetchMyFilmsAction } from '../../store/api-actions/api-film-actions';
+import { fetchMyFilmsAction } from '../../store/api-actions/api-favorite-actions';
 
 
 function MyList(): JSX.Element {
-  const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
-  const myFilms = useAppSelector((state) => state.films.myFilms);
+  const isDataLoading = useAppSelector((state) => state.favorites.isMyFilmsLoading);
+  const myFilms = useAppSelector((state) => state.favorites.myFilms);
   const dispatch = useAppDispatch();
 
   useEffect(()=>{
     dispatch(fetchMyFilmsAction());
-  },[]);
+  },[dispatch]);
 
   return (
     (isDataLoading) ? <LoadingBlock /> :

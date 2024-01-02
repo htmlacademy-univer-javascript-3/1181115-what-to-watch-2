@@ -1,9 +1,9 @@
 import * as dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { fetchUsersComments } from '../../../store/api-actions/api-comment-actions';
 import { UserComment } from '../../../types';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { fetchUsersCommentsAction } from '../../../store/api-actions/api-review-action';
 
 
 const MAX_COL = 2;
@@ -30,13 +30,13 @@ function FilmReview({ date, user, comment, rating}: UserComment): JSX.Element{
 function ReviewsBlock(): JSX.Element {
   const reviews = useAppSelector((state)=>state.reviews.userComments);
   const dispatch = useAppDispatch();
-  const location = useLocation();
 
-  const currentFilmId = location.pathname.slice(7);
+  const { id = '' } = useParams();
+
 
   useEffect(()=>{
-    dispatch(fetchUsersComments(currentFilmId));
-  },[]);
+    dispatch(fetchUsersCommentsAction(id));
+  },[id, dispatch]);
 
   const maxReviewNumber = Math.ceil(reviews.length / MAX_COL);
 

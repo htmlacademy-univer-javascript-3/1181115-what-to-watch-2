@@ -1,33 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { changeMyFilmsAction, fetchMyFilmsAction } from '../../../store/api-actions/api-film-actions';
-import { useLocation } from 'react-router-dom';
+
+import { changeFilmStatusAction } from '../../../store/api-actions/api-films-actions';
+import { AuthorizationStatus } from '../../../const';
+import { fetchMyFilmsAction } from '../../../store/api-actions/api-favorite-actions';
 
 
-function AddToListButton(): JSX.Element |null{
-  const myFilms = useAppSelector((state)=>state.films.myFilms);
-  const isMyFilmsLoading = useAppSelector((state)=>state.films.isMyFilmsLoading);
+type AddButtonProps = {
+  listLength: number;
+};
+
+function AddToListButton({listLength}:AddButtonProps): JSX.Element |null{
+  const myFilms = useAppSelector((state)=>state.favorites.myFilms);
+  const isMyFilmsLoading = useAppSelector((state)=>state.favorites.isMyFilmsLoading);
   const propmoFilmId = useAppSelector((state)=>state.films.promo.id);
+  const authStatus = useAppSelector((state)=>state.user.authorizationStatus);
+  const isAuth = authStatus === AuthorizationStatus.Auth;
 
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const { id = '' } = useParams();
 
   const currentFilmId = (location.pathname === '/')
     ? propmoFilmId
-    : location.pathname.slice(7);
+    : id ;
 
   const isFilmAdded = myFilms.some((film)=>film.id === currentFilmId);
-  const [filmAdded] = useState(isFilmAdded);
 
-  useEffect(()=>{
-    dispatch(fetchMyFilmsAction());
-  },[]); // запрашивать после оправки post и менять filmAdded
 
   const handleButtonClick = () => {
-    dispatch(changeMyFilmsAction({
-      id: currentFilmId,
-      filmStatus: Number(filmAdded),
-    }));
+    if (currentFilmId && isAuth){
+      dispatch(changeFilmStatusAction({
+        id: currentFilmId,
+        status: isFilmAdded ? 0 : 1,
+      }))
+        .then(() => dispatch(fetchMyFilmsAction()));
+    }
   };
 
 
@@ -41,7 +49,7 @@ function AddToListButton(): JSX.Element |null{
         onClick={handleButtonClick}
       >
         {
-          filmAdded ?
+          isFilmAdded ?
             (
               <svg viewBox="0 0 18 14" width="18" height="14">
                 <use xlinkHref="#in-list"></use>
@@ -56,7 +64,7 @@ function AddToListButton(): JSX.Element |null{
         }
 
         <span>My list</span>
-        <span className="film-card__count">{myFilms.length}</span>
+        <span className="film-card__count">{listLength}</span>
       </button>
   );
 }

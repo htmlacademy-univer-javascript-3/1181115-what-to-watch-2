@@ -1,9 +1,10 @@
 import { Fragment} from 'react';
 import { useAppSelector } from '../../../hooks';
+import { processRunTime } from './processRunTime';
 
 
 function Details(): JSX.Element | null{
-  const fullFilm = useAppSelector((state) => state.films.fullFilm);
+  const fullFilm = useAppSelector((state) => state.fullFilm.film);
 
   return(
     (fullFilm) &&
@@ -17,7 +18,7 @@ function Details(): JSX.Element | null{
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {
-              fullFilm?.starring.map((name) =>(
+              fullFilm.starring.map((name) =>(
                 <Fragment key={name}>
                   {name}<br/>
                 </Fragment>
@@ -30,7 +31,7 @@ function Details(): JSX.Element | null{
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{fullFilm.runTime}</span>
+          <span className="film-card__details-value">{processRunTime(fullFilm.runTime)}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

@@ -6,12 +6,11 @@ import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import ShowMore from '../../components/show-more/show-more';
-import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-film-actions';
+import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-films-actions';
 import LoadingBlock from '../../components/loading-block/loading-block';
 import PlayButton from '../../components/buttons/play-button/play-button';
 import AddToListButton from '../../components/buttons/add-to-list-button.tsx/add-to-list-button';
-import { AuthorizationStatus } from '../../const';
-import { getToken } from '../../api/token';
+import { useMyFilms } from '../../hooks/use-my-films';
 
 
 const CARD_LIMIT = 8;
@@ -21,11 +20,13 @@ const MemoizedAddTolistButton = memo(AddToListButton);
 function Main(): JSX.Element {
 
   const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
-  const authStatus = useAppSelector((state) => state.user.authorizationStatus);
   const activeGenreHash = useAppSelector((state)=>state.films.genre);
+
+  const {myFilms} = useMyFilms();
+  const activeGenre = activeGenreHash.slice(1);
   const dispatch = useAppDispatch();
 
-  const activeGenre = activeGenreHash.slice(1);
+
   const list = useAppSelector((state)=>state.films.films);
   const promo = useAppSelector((state)=>state.films.promo);
   const [limit, setLimit] = useState(CARD_LIMIT);
@@ -34,7 +35,7 @@ function Main(): JSX.Element {
   useEffect(()=>{
     dispatch(fetchPromoAction());
     dispatch(fetchFilmsAction());
-  },[]);
+  },[dispatch]);
 
 
   const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
@@ -52,7 +53,6 @@ function Main(): JSX.Element {
   const handleMoreClick = () => {
     setLimit((l) => l + CARD_LIMIT);
   };
-
 
   return (
     (isDataLoading) ? <LoadingBlock /> :
@@ -90,9 +90,7 @@ function Main(): JSX.Element {
                 <div className="film-card__buttons">
 
                   <PlayButton/>
-
-                  {(authStatus === AuthorizationStatus.Auth || getToken() !== '') && <MemoizedAddTolistButton />}
-
+                  <MemoizedAddTolistButton listLength={myFilms.length} />
 
                 </div>
               </div>

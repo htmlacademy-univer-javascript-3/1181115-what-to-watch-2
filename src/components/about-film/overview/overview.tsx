@@ -1,11 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import { useAppSelector } from '../../../hooks';
+import { processRatingLevel } from './processRatingLevel';
 
 
 const MAX_PEOPLE = 4;
 
 function Overview(): JSX.Element | null {
-  const fullFilm = useAppSelector((state) => state.films.fullFilm);
+  const fullFilm = useAppSelector((state) => state.fullFilm.film);
 
   const descriptionText = fullFilm?.description.split('\n').map((d:string) => ({id: uuid(), paragraph: d}));
 
@@ -15,7 +16,7 @@ function Overview(): JSX.Element | null {
       <div className="film-rating">
         <div className="film-rating__score">{fullFilm.rating.toFixed(1).replace(/\./g, ',')}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{'ratingLevel'}</span>
+          <span className="film-rating__level">{processRatingLevel(fullFilm.rating)}</span>
           <span className="film-rating__count">{fullFilm.scoresCount} ratings</span>
         </p>
       </div>

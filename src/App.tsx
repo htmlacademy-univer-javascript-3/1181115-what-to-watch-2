@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { AppRoute } from './const';
 import Main from './pages/main/main';
@@ -10,17 +9,23 @@ import AddReview from './pages/add-review/add-review';
 import Player from './pages/player/player';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import PrivateRoute from './components/private-route/private-route';
-import { checkAuthAction } from './store/api-actions/api-user-actions';
 import LoadingBlock from './components/loading-block/loading-block';
+import { getToken } from './api/token';
+import { checkAuthAction } from './store/api-actions/api-user-actions';
+import { useEffect } from 'react';
 
+
+const token = getToken();
 
 function App(): JSX.Element {
   const isAuthLoading = useAppSelector((state) => state.user.isAuthLoading);
   const dispatch = useAppDispatch();
 
   useEffect(()=>{
-    dispatch(checkAuthAction());
-  }, []);
+    if(token) {
+      dispatch(checkAuthAction());
+    }
+  }, [dispatch]);
 
   return (
     (isAuthLoading) ? <LoadingBlock /> :

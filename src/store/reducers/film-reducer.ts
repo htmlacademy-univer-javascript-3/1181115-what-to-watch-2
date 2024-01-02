@@ -1,77 +1,49 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setActiveGenre, loadFilms, loadMyFilms, setFilmsDataLoadingStatus, loadPromo, loadSimilarFilmsById, loadFullFilm, setFilmLoadError, setMyFilmsLoadingStatus } from '../action';
-import { Film, FullFilm, PromoFilm } from '../../types';
+import { Film, FullFilm } from '../../types';
+import { fetchFullFilmAction, fetchSimilarFilmsAction} from '../api-actions/api-film-actions';
 
 
 export type StateType = {
-  genre: string;
-  films: Film[];
-  myFilms: Film[];
+  film: FullFilm | null;
   similarFilms: Film[];
-  promo: PromoFilm ;
-  fullFilm: null | FullFilm;
-  isDataLoading: boolean;
-  isMyFilmsLoading: boolean;
-  error: string | null;
+  isFilmDataLoading: boolean;
+  isSimilarFilmsLoading: boolean;
 };
 
 const initialState: StateType = {
-  genre: '',
-  films: [],
-  myFilms: [],
   similarFilms: [],
-  promo: {
-    id: '',
-    name: '',
-    posterImage: '',
-    backgroundImage: '',
-    videoLink: '',
-    genre: '',
-    released: 0,
-    isFavorite: false,
-  },
-  fullFilm: null,
-  isDataLoading: false,
-  isMyFilmsLoading: false,
-  error: null,
+  film: null,
+  isFilmDataLoading: false,
+  isSimilarFilmsLoading: false,
 };
 
-const filmReducer = createReducer(initialState, (builder)=>{
+const fullFilmReducer = createReducer(initialState, (builder)=>{
   builder
-    .addCase(loadFilms, (state, action) =>{
-      state.films = action.payload;
-    })
-    .addCase(loadMyFilms, (state, action) =>{
-      state.myFilms = action.payload;
+    .addCase(fetchFullFilmAction.pending, (state) =>{
+      state.isFilmDataLoading = true;
     })
 
-    .addCase(loadPromo, (state, action)=>{
-      state.promo = action.payload;
-    })
-    .addCase(loadFullFilm, (state, action) =>{
-      state.fullFilm = action.payload;
+    .addCase(fetchFullFilmAction.fulfilled, (state,action) =>{
+      state.isFilmDataLoading = false;
+      state.film = action.payload;
     })
 
-    .addCase(loadSimilarFilmsById, (state, action) =>{
+    .addCase(fetchFullFilmAction.rejected, (state) =>{
+      state.isFilmDataLoading = false;
+    })
+
+    .addCase(fetchSimilarFilmsAction.pending, (state) =>{
+      state.isFilmDataLoading = true;
+    })
+
+    .addCase(fetchSimilarFilmsAction.fulfilled, (state,action) =>{
+      state.isFilmDataLoading = false;
       state.similarFilms = action.payload;
     })
 
-    .addCase(setFilmsDataLoadingStatus, (state, action) =>{
-      state.isDataLoading = action.payload;
-    })
-
-    .addCase(setMyFilmsLoadingStatus, (state, action) =>{
-      state.isMyFilmsLoading = action.payload;
-    })
-
-    .addCase(setActiveGenre,(state, action) => {
-      state.genre = action.payload;
-    })
-
-    .addCase(setFilmLoadError, (state, action) =>{
-      state.error = action.payload;
+    .addCase(fetchSimilarFilmsAction.rejected, (state) =>{
+      state.isFilmDataLoading = false;
     });
-
 });
 
-export {filmReducer};
+export {fullFilmReducer};
