@@ -1,5 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { useLocation } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import FilmList from '../../components/film-list/film-list';
@@ -11,29 +10,36 @@ import ReviewsBlock from '../../components/about-film/reviews/reviews';
 import Tabs from '../../components/tabs/tabs';
 import {FilmPageTab} from '../../const';
 import { useAppSelector } from '../../hooks';
-import { fullInfoFilm } from '../../mocs/full-info-film';
+import AddReviewLink from '../../components/buttons/add-review-link/add-review-link';
+import { useMyFilms } from '../../hooks/use-my-films';
+import { useFilmDetails } from '../../hooks/use-film-details';
 
 
 const CARD_LIMIT = 4;
 
 
-function Movie(): JSX.Element {
+function Movie(): JSX.Element | null {
+  const {film} = useFilmDetails();
+  const {myFilms} = useMyFilms();
+
+  const list = useAppSelector((state)=>state.fullFilm.similarFilms);
   const location = useLocation();
   const activePage = location.hash.slice(1);
 
   const filmDescriptionTabs = Array.from(Object.values(FilmPageTab),(x) =>(x));
 
-  const list = useAppSelector((state)=>state.films.films);
-  const similarFilms = list.filter((film)=> film.genre === fullInfoFilm.genre).slice(0, CARD_LIMIT);
+
+  const similarFilms = list.slice(0, CARD_LIMIT);
 
   return (
+    (film) &&
     <div>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img
-              src={fullInfoFilm.filmImg}
-              alt={fullInfoFilm.filmName}
+              src={film.backgroundImage}
+              alt={film.name}
             />
           </div>
 
@@ -42,19 +48,17 @@ function Movie(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{fullInfoFilm.filmName}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{fullInfoFilm.genre}</span>
-                <span className="film-card__year">{fullInfoFilm.filmReleaseDate}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
                 <PlayButton />
-                <AddToListButton/>
+                <AddToListButton listLength={myFilms.length}/>
 
-                <Link to={AppRoute.AddReview.replace(':id', fullInfoFilm.id.toString())} className="btn film-card__button">
-                  Add review
-                </Link>
+                <AddReviewLink id={film.id}/>
               </div>
             </div>
           </div>
@@ -64,8 +68,8 @@ function Movie(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={fullInfoFilm.filmPoster}
-                alt={fullInfoFilm.filmName}
+                src={film.posterImage}
+                alt={film.name}
                 width="218"
                 height="327"
               />
@@ -75,28 +79,15 @@ function Movie(): JSX.Element {
               <Tabs tabs={filmDescriptionTabs}/>
               {
                 (activePage === '' || activePage === filmDescriptionTabs[0]) &&
-                  <Overview
-                    ratingScore={fullInfoFilm.ratingScore}
-                    ratingLevel={fullInfoFilm.ratingLevel}
-                    ratingCount={fullInfoFilm.ratingCount}
-                    description={fullInfoFilm.description}
-                    director={fullInfoFilm.director}
-                    starring={fullInfoFilm.starring}
-                  />
+                  <Overview />
               }
               {
                 (activePage === filmDescriptionTabs[1]) &&
-                  <Details
-                    director={fullInfoFilm.director}
-                    starring={fullInfoFilm.starring}
-                    runTime={fullInfoFilm.runTime}
-                    genre={fullInfoFilm.genre}
-                    filmReleaseDate={fullInfoFilm.filmReleaseDate}
-                  />
+                  <Details />
               }
               {
                 (activePage === filmDescriptionTabs[2]) &&
-                  <ReviewsBlock reviews={fullInfoFilm.reviews}/>
+                  <ReviewsBlock />
               }
             </div>
           </div>

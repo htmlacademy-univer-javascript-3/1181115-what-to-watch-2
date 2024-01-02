@@ -21,7 +21,7 @@ function GenreList({ genres }: Props){
 
   useEffect(() => {
     dispatch(setActiveGenre(location.hash));
-  },[location]);
+  },[location, dispatch]);
 
   return(
     <ul className="catalog__genres-list">

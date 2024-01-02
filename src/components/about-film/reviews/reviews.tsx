@@ -1,35 +1,42 @@
 import * as dayjs from 'dayjs';
-import { Review } from '../../../types';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { UserComment } from '../../../types';
+import { useParams } from 'react-router-dom';
+import { fetchUsersCommentsAction } from '../../../store/api-actions/api-review-action';
 
-
-type ReviewsBlockProps = {
-  reviews: Review[];
-}
 
 const MAX_COL = 2;
 
-function FilmReview(review:Review): JSX.Element{
-
+function FilmReview({ date, user, comment, rating}: UserComment): JSX.Element{
   return(
     <div className="review">
       <blockquote className="review__quote">
-        <p className="review__text">{review.text}</p>
+        <p className="review__text">{comment}</p>
 
         <footer className="review__details">
-          <cite className="review__author">{review.author}</cite>
-          <time className="review__date" dateTime={review.date}>
-            {dayjs(review.date).format('MMMM D, YYYY')}
+          <cite className="review__author">{user}</cite>
+          <time className="review__date" dateTime={date}>
+            {dayjs(date).format('MMMM D, YYYY')}
           </time>
         </footer>
       </blockquote>
 
-      <div className="review__rating">{review.ratingScore.toFixed(1).replace(/\./g, ',')}</div>
+      <div className="review__rating">{rating.toFixed(1).replace(/\./g, ',')}</div>
     </div>
   );
 }
 
-function ReviewsBlock(props: ReviewsBlockProps): JSX.Element {
-  const {reviews} = props;
+function ReviewsBlock(): JSX.Element {
+  const reviews = useAppSelector((state)=>state.reviews.userComments);
+  const dispatch = useAppDispatch();
+
+  const { id = '' } = useParams();
+
+
+  useEffect(()=>{
+    dispatch(fetchUsersCommentsAction(id));
+  },[id, dispatch]);
 
   const maxReviewNumber = Math.ceil(reviews.length / MAX_COL);
 

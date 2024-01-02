@@ -3,7 +3,7 @@ import { AxiosError, AxiosInstance } from 'axios';
 import { AppDispatch, State } from './../state';
 import { AuthData, UserData } from '../../types';
 import { APIRoute, AuthorizationStatus} from '../../const';
-import { setAuthorization, setAuthorizationError, setUserData } from './../action';
+import { setAuthLoadingStatus, setAuthorization, setAuthorizationError, setUserData } from './../action';
 import { dropToken, saveToken } from '../../api/token';
 
 
@@ -17,11 +17,16 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   }>(
     'user/checkAuth',
     async (_arg, {dispatch, extra: api}) => {
+      dispatch(setAuthLoadingStatus(true));
       try {
         await api.get(APIRoute.Login);
         dispatch(setAuthorization(AuthorizationStatus.Auth));
+
       } catch {
         dispatch(setAuthorization(AuthorizationStatus.NoAuth));
+
+      } finally{
+        dispatch(setAuthLoadingStatus(false));
       }
     },
   );

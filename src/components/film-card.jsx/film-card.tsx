@@ -6,7 +6,7 @@ import VideoPreview from '../video-preview/video-preview';
 
 type FilmCardProps = Film & {
   isActive: boolean;
-  onMouseMove: (id : number| null) => void ;
+  onMouseMove: (id : string| null) => void ;
 };
 
 function FilmCard(props: FilmCardProps): JSX.Element {
@@ -19,7 +19,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
       className="small-film-card catalog__films-card"
     >
       <Link
-        to={AppRoute.Film.replace(':id', id.toString())}
+        to={AppRoute.Film.replace(':id', id)}
         className="small-film-card__link"
       >
         <div className="small-film-card__image">

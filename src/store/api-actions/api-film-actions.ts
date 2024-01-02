@@ -1,57 +1,24 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
-import { AppDispatch, State } from './../state';
-import { Film, PromoFilm } from '../../types';
+import { AsyncActionConfig, Film, FullFilm } from '../../types';
 import { APIRoute } from '../../const';
-import { loadFilms, loadPromo, setFilmsDataLoadingStatus } from './../action';
 
 
-export const fetchFilmsAction = createAsyncThunk <void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-  }>(
-    'data/fetchFilms',
-    async(_arg, {dispatch, extra: api}) => {
-      dispatch(setFilmsDataLoadingStatus(true));
+export const fetchFullFilmAction = createAsyncThunk <FullFilm , string, AsyncActionConfig >(
+  'film/fetchFullFilm',
+  async(id,{ extra: api }) => {
+    const {data} = await api.get<FullFilm>(APIRoute.FullFilm.replace(':id', id));
 
-      const {data} = await api.get<Film[]>(APIRoute.Films);
-
-      dispatch(setFilmsDataLoadingStatus(false));
-      dispatch(loadFilms(data));
-    },
-  );
-
-
-export const fetchPromoAction = createAsyncThunk <void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/fetchPromo',
-  async(_arg, {dispatch, extra: api}) => {
-    dispatch(setFilmsDataLoadingStatus(true));
-
-    const {data} = await api.get<PromoFilm>(APIRoute.PromoFilm);
-
-    dispatch(setFilmsDataLoadingStatus(false));
-    dispatch(loadPromo(data));
+    return data;
   },
 );
 
 
-export const fetchMyFilmsAction = createAsyncThunk <void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/fetchMyFilms',
-  async(_arg, {dispatch, extra: api}) => {
-    dispatch(setFilmsDataLoadingStatus(true));
+export const fetchSimilarFilmsAction = createAsyncThunk <Film[], string, AsyncActionConfig >(
+  'film/fetchSimilarFilms',
+  async (id, { extra: api }) => {
+    const {data} = await api.get<Film[]>(APIRoute.SimilarFilms.replace(':id', id));
 
-    const {data} = await api.get<Film[]>(APIRoute.MyFilms);
-
-    dispatch(setFilmsDataLoadingStatus(false));
-    dispatch(loadFilms(data));
+    return data;
   },
 );
+

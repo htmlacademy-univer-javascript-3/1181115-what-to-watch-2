@@ -20,8 +20,8 @@ function UserBlock(): JSX.Element {
         <li className="user-block__item">
           <div className="user-block__avatar">
             <img
-              src={user?.avatarUrl}
-              alt={user?.name}
+              src={user.avatarUrl}
+              alt={user.name}
               width="63"
               height="63"
             />

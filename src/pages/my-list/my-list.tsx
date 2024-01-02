@@ -1,49 +1,45 @@
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import Footer from '../../components/footer/footer';
 import FilmList from '../../components/film-list/film-list';
 import LoadingBlock from '../../components/loading-block/loading-block';
 import UserBlock from '../../components/user-block/user-block';
+import Logo from '../../components/logo/logo';
+import { useEffect } from 'react';
+import { fetchMyFilmsAction } from '../../store/api-actions/api-favorite-actions';
 
 
 function MyList(): JSX.Element {
-  const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
-  const myFilmList = useAppSelector((state) => state.films.films);
+  const isDataLoading = useAppSelector((state) => state.favorites.isMyFilmsLoading);
+  const myFilms = useAppSelector((state) => state.favorites.myFilms);
+  const dispatch = useAppDispatch();
 
-
-  if (isDataLoading) {
-    return (
-      <LoadingBlock />
-    );
-  }
+  useEffect(()=>{
+    dispatch(fetchMyFilmsAction());
+  },[dispatch]);
 
   return (
-    <div className="user-page">
-      <header className="page-header user-page__head">
-        <div className="logo">
-          <a href="main.html" className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+    (isDataLoading) ? <LoadingBlock /> :
+      <div className="user-page">
+        <header className="page-header user-page__head">
+          <Logo styleType='normal'/>
 
-        <h1 className="page-title user-page__title">
-          My list <span className="user-page__film-count">{myFilmList.length}</span>
-        </h1>
-        <UserBlock />
-      </header>
+          <h1 className="page-title user-page__title">
+            My list <span className="user-page__film-count">{myFilms.length}</span>
+          </h1>
+          <UserBlock />
+        </header>
 
-      <section className="catalog">
-        <h2 className="catalog__title visually-hidden">Catalog</h2>
+        <section className="catalog">
+          <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <div className="catalog__films-list">
-          <FilmList films={myFilmList} />
-        </div>
-      </section>
+          <div className="catalog__films-list">
+            <FilmList films={myFilms} />
+          </div>
+        </section>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
   );
 }
 

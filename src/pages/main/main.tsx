@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, memo } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
@@ -6,21 +6,27 @@ import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import ShowMore from '../../components/show-more/show-more';
-import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-film-actions';
+import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-films-actions';
 import LoadingBlock from '../../components/loading-block/loading-block';
 import PlayButton from '../../components/buttons/play-button/play-button';
+import AddToListButton from '../../components/buttons/add-to-list-button.tsx/add-to-list-button';
+import { useMyFilms } from '../../hooks/use-my-films';
 
 
 const CARD_LIMIT = 8;
 
+const MemoizedAddTolistButton = memo(AddToListButton);
 
 function Main(): JSX.Element {
 
   const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
   const activeGenreHash = useAppSelector((state)=>state.films.genre);
+
+  const {myFilms} = useMyFilms();
+  const activeGenre = activeGenreHash.slice(1);
   const dispatch = useAppDispatch();
 
-  const activeGenre = activeGenreHash.slice(1);
+
   const list = useAppSelector((state)=>state.films.films);
   const promo = useAppSelector((state)=>state.films.promo);
   const [limit, setLimit] = useState(CARD_LIMIT);
@@ -29,7 +35,7 @@ function Main(): JSX.Element {
   useEffect(()=>{
     dispatch(fetchPromoAction());
     dispatch(fetchFilmsAction());
-  },[]);
+  },[dispatch]);
 
 
   const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
@@ -84,16 +90,8 @@ function Main(): JSX.Element {
                 <div className="film-card__buttons">
 
                   <PlayButton/>
-                  <button
-                    className="btn btn--list film-card__button"
-                    type="button"
-                  >
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">{/*myFilmlist.length*/}</span>
-                  </button>
+                  <MemoizedAddTolistButton listLength={myFilms.length} />
+
                 </div>
               </div>
             </div>

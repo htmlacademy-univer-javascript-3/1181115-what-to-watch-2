@@ -5,6 +5,7 @@ export enum AppRoute {
   Film = '/films/:id',
   AddReview = '/films/:id/review',
   Player = '/player/:id',
+  NotFound = '/page-not-found',
 }
 
 export enum AuthorizationStatus {
@@ -22,7 +23,11 @@ export enum FilmPageTab {
 export enum APIRoute {
   Films = '/films',
   PromoFilm = '/promo',
+  SimilarFilms = '/films/:id/similar',
+  FullFilm = '/films/:id',
   MyFilms ='/favorite',
   Login = '/login',
-  Logout ='/logout'
+  Logout ='/logout',
+  ChangeFilmStatus ='/favorite/:id/:status',
+  UserComments ='/comments/:id',
 }

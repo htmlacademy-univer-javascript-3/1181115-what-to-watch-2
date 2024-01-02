@@ -1,5 +1,8 @@
+import { AxiosInstance } from 'axios';
+import { State } from './store/state';
+
 export type Film = {
-  id: number;
+  id: string;
   name: string;
   genre: string;
   previewVideoLink: string;
@@ -20,7 +23,7 @@ export type PromoFilm = {
 }
 
 export type Review ={
-  id: number;
+  id: string;
   text: string;
   ratingScore: number;
   author: string;
@@ -28,21 +31,27 @@ export type Review ={
 };
 
 export type FullFilm ={
-  id: number;
-  filmName: string;
+  id: string;
+  name: string;
   genre: string;
-  filmReleaseDate: number;
-  filmImg: string;
-  filmPoster: string;
-  runTime: string;
-  ratingScore: number;
-  ratingLevel: string;
-  ratingCount: number;
+  released: number;
+  backgroundImage: string;
+  posterImage: string;
+  runTime: number;
+  rating: number;
+  scoresCount: number;
   description: string;
   director: string;
   starring: string[];
   reviews: Review[];
-  moreLikeThis: Film[];
+};
+
+export type UserComment = {
+  id: string;
+  date: string;
+  user: string;
+  comment: string;
+  rating: number;
 };
 
 export type AuthData={
@@ -56,3 +65,19 @@ export type UserData = {
   email: string;
   token: string;
 };
+
+export type ErrorType = {
+  errorType?: string;
+  message?: string;
+}
+
+export type AddCommentRequest = {
+  filmId: string;
+  comment: string;
+  rating: number;
+}
+
+export type AsyncActionConfig ={
+  state: State;
+  extra: AxiosInstance;
+}

@@ -1,4 +1,4 @@
-import {useFilmPreview} from '../../hooks/useVideoPreview';
+import { useFilmPreview } from '../../hooks/use-video-preview';
 
 
 type VideoPreviewProps = {
