@@ -2,7 +2,7 @@ import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 
 type LogoProps = {
-  styleType: string;
+  styleType: 'off' | 'lightening' | 'normal';
 };
 
 function Logo({styleType}:LogoProps): JSX.Element {
@@ -10,7 +10,8 @@ function Logo({styleType}:LogoProps): JSX.Element {
   const typeStyles = {
     lightening: 'logo__link--light',
     normal: '',
-  }[styleType] as string;
+    off: '',
+  }[styleType];
 
   return (
     <div className="logo">
