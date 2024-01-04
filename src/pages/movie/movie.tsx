@@ -2,14 +2,14 @@ import { useLocation } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import FilmList from '../../components/film-list/film-list';
-import PlayButton from '../../components/buttons/play-button/play-button';
-import AddToListButton from '../../components/buttons/add-to-list-button.tsx/add-to-list-button';
+import PlayLink from '../../components/controls/play-link/play-link';
+import AddToListButton from '../../components/controls/add-to-list-button/add-to-list-button';
 import Overview from '../../components/about-film/overview/overview';
 import Details from '../../components/about-film/details/details';
 import ReviewsBlock from '../../components/about-film/reviews/reviews';
 import Tabs from '../../components/tabs/tabs';
 import {FilmPageTab} from '../../const';
-import AddReviewLink from '../../components/buttons/add-review-link/add-review-link';
+import AddReviewLink from '../../components/controls/add-review-link/add-review-link';
 import { useMyFilms } from '../../hooks/use-my-films';
 import { useFilmDetails } from '../../hooks/use-film-details';
 import { useSimilarFilms } from '../../hooks/use-similar-films';
@@ -56,7 +56,7 @@ function Movie(): JSX.Element | null {
               </p>
 
               <div className="film-card__buttons">
-                <PlayButton />
+                <PlayLink id={film.id} />
                 <AddToListButton listLength={myFilms.length}/>
 
                 <AddReviewLink id={film.id}/>

@@ -1,6 +1,6 @@
 import { Fragment} from 'react';
 import { useAppSelector } from '../../../hooks';
-import { processRunTime } from './processRunTime';
+import { processRunTime } from '../../../functions/processRunTime';
 import { getCurrentFilm } from '../../../store/selectors/film-selector';
 
 
