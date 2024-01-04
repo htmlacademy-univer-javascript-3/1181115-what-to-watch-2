@@ -9,10 +9,10 @@ import Details from '../../components/about-film/details/details';
 import ReviewsBlock from '../../components/about-film/reviews/reviews';
 import Tabs from '../../components/tabs/tabs';
 import {FilmPageTab} from '../../const';
-import { useAppSelector } from '../../hooks';
 import AddReviewLink from '../../components/buttons/add-review-link/add-review-link';
 import { useMyFilms } from '../../hooks/use-my-films';
 import { useFilmDetails } from '../../hooks/use-film-details';
+import { useSimilarFilms } from '../../hooks/use-similar-films';
 
 
 const CARD_LIMIT = 4;
@@ -22,7 +22,8 @@ function Movie(): JSX.Element | null {
   const {film} = useFilmDetails();
   const {myFilms} = useMyFilms();
 
-  const list = useAppSelector((state)=>state.fullFilm.similarFilms);
+  const {list} = useSimilarFilms();
+
   const location = useLocation();
   const activePage = location.hash.slice(1);
 

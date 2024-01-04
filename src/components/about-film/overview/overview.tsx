@@ -1,12 +1,13 @@
 import { v4 as uuid } from 'uuid';
 import { useAppSelector } from '../../../hooks';
 import { processRatingLevel } from './processRatingLevel';
+import { getCurrentFilm } from '../../../store/selectors/film-selector';
 
 
 const MAX_PEOPLE = 4;
 
 function Overview(): JSX.Element | null {
-  const fullFilm = useAppSelector((state) => state.fullFilm.film);
+  const fullFilm = useAppSelector(getCurrentFilm);
 
   const descriptionText = fullFilm?.description.split('\n').map((d:string) => ({id: uuid(), paragraph: d}));
 

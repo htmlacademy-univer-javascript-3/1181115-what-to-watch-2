@@ -13,12 +13,13 @@ import LoadingBlock from './components/loading-block/loading-block';
 import { getToken } from './api/token';
 import { checkAuthAction } from './store/api-actions/api-user-actions';
 import { useEffect } from 'react';
+import { getIsAuthLoading } from './store/selectors/user-selector';
 
 
 const token = getToken();
 
 function App(): JSX.Element {
-  const isAuthLoading = useAppSelector((state) => state.user.isAuthLoading);
+  const isAuthLoading = useAppSelector(getIsAuthLoading);
   const dispatch = useAppDispatch();
 
   useEffect(()=>{

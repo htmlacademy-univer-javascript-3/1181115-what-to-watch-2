@@ -4,6 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { changeFilmStatusAction } from '../../../store/api-actions/api-films-actions';
 import { AuthorizationStatus } from '../../../const';
 import { fetchMyFilmsAction } from '../../../store/api-actions/api-favorite-actions';
+import { getIsMyFilmsLoading, getMyFilms } from '../../../store/selectors/favorite-selector';
+import { getPromoFilm } from '../../../store/selectors/films-selector';
+import { getIsAuth } from '../../../store/selectors/user-selector';
 
 
 type AddButtonProps = {
@@ -11,10 +14,10 @@ type AddButtonProps = {
 };
 
 function AddToListButton({listLength}:AddButtonProps): JSX.Element |null{
-  const myFilms = useAppSelector((state)=>state.favorites.myFilms);
-  const isMyFilmsLoading = useAppSelector((state)=>state.favorites.isMyFilmsLoading);
-  const propmoFilmId = useAppSelector((state)=>state.films.promo.id);
-  const authStatus = useAppSelector((state)=>state.user.authorizationStatus);
+  const myFilms = useAppSelector(getMyFilms);
+  const isMyFilmsLoading = useAppSelector(getIsMyFilmsLoading);
+  const propmoFilmId = useAppSelector(getPromoFilm)?.id;
+  const authStatus = useAppSelector(getIsAuth);
   const isAuth = authStatus === AuthorizationStatus.Auth;
 
   const location = useLocation();

@@ -1,10 +1,11 @@
 import { Fragment} from 'react';
 import { useAppSelector } from '../../../hooks';
 import { processRunTime } from './processRunTime';
+import { getCurrentFilm } from '../../../store/selectors/film-selector';
 
 
 function Details(): JSX.Element | null{
-  const fullFilm = useAppSelector((state) => state.fullFilm.film);
+  const fullFilm = useAppSelector(getCurrentFilm);
 
   return(
     (fullFilm) &&

@@ -6,6 +6,7 @@ import { loginAction } from '../../store/api-actions/api-user-actions';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Logo from '../../components/logo/logo';
+import { getIsAuth } from '../../store/selectors/user-selector';
 
 
 const EMAIL_TEMPLATE = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -32,7 +33,7 @@ function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const authStatus = useAppSelector((state) => state.user.authorizationStatus);
+  const authStatus = useAppSelector(getIsAuth);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);

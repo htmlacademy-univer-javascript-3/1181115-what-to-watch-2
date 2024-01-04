@@ -3,11 +3,12 @@ import UserBlock from '../../components/user-block/user-block';
 import { useAppSelector } from '../../hooks';
 import Logo from '../../components/logo/logo';
 import Breadcrumbs from '../../components/header/breadcrumbs/breadcrumbs';
+import { getCurrentFilm } from '../../store/selectors/film-selector';
 
 
 function AddReview(): JSX.Element |null {
 
-  const film = useAppSelector((state)=>state.fullFilm.film);
+  const film = useAppSelector(getCurrentFilm);
 
 
   return (

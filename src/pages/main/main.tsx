@@ -11,6 +11,7 @@ import LoadingBlock from '../../components/loading-block/loading-block';
 import PlayButton from '../../components/buttons/play-button/play-button';
 import AddToListButton from '../../components/buttons/add-to-list-button.tsx/add-to-list-button';
 import { useMyFilms } from '../../hooks/use-my-films';
+import { getCurrentGenre, getFilms, getIsFilmsLoading, getPromoFilm } from '../../store/selectors/films-selector';
 
 
 const CARD_LIMIT = 8;
@@ -19,16 +20,16 @@ const MemoizedAddTolistButton = memo(AddToListButton);
 
 function Main(): JSX.Element {
 
-  const isDataLoading = useAppSelector((state) => state.films.isDataLoading);
-  const activeGenreHash = useAppSelector((state)=>state.films.genre);
+  const isDataLoading = useAppSelector(getIsFilmsLoading);
+  const activeGenreHash = useAppSelector(getCurrentGenre);
 
   const {myFilms} = useMyFilms();
   const activeGenre = activeGenreHash.slice(1);
   const dispatch = useAppDispatch();
 
 
-  const list = useAppSelector((state)=>state.films.films);
-  const promo = useAppSelector((state)=>state.films.promo);
+  const list = useAppSelector(getFilms);
+  const promo = useAppSelector(getPromoFilm);
   const [limit, setLimit] = useState(CARD_LIMIT);
 
 

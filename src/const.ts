@@ -31,3 +31,11 @@ export enum APIRoute {
   ChangeFilmStatus ='/favorite/:id/:status',
   UserComments ='/comments/:id',
 }
+
+export enum NameSpace {
+  Film = 'FILM',
+  Films = 'FILMS',
+  User = 'USER',
+  MyFilms = 'FAVORITE_FILMS',
+  Review = 'REVIEW',
+}
