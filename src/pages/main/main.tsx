@@ -1,17 +1,18 @@
 import { useMemo, useState, useEffect, memo } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-films-actions';
+import { useMyFilms } from '../../hooks/use-my-films';
+import { getCurrentGenre, getFilms, getIsFilmsLoading, getPromoFilm } from '../../store/selectors/films-selector';
+
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import Header from '../../components/header/header';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
 import ShowMore from '../../components/show-more/show-more';
-import { fetchFilmsAction, fetchPromoAction } from '../../store/api-actions/api-films-actions';
 import LoadingBlock from '../../components/loading-block/loading-block';
-import PlayButton from '../../components/buttons/play-button/play-button';
-import AddToListButton from '../../components/buttons/add-to-list-button.tsx/add-to-list-button';
-import { useMyFilms } from '../../hooks/use-my-films';
-import { getCurrentGenre, getFilms, getIsFilmsLoading, getPromoFilm } from '../../store/selectors/films-selector';
+import PlayLink from '../../components/controls/play-link/play-link';
+import AddToListButton from '../../components/controls/add-to-list-button/add-to-list-button';
 
 
 const CARD_LIMIT = 8;
@@ -90,7 +91,7 @@ function Main(): JSX.Element {
 
                 <div className="film-card__buttons">
 
-                  <PlayButton/>
+                  <PlayLink id={promo.id}/>
                   <MemoizedAddTolistButton listLength={myFilms.length} />
 
                 </div>

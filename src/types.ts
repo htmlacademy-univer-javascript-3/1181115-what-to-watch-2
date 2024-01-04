@@ -37,6 +37,7 @@ export type FullFilm ={
   released: number;
   backgroundImage: string;
   posterImage: string;
+  videoLink: string;
   runTime: number;
   rating: number;
   scoresCount: number;
