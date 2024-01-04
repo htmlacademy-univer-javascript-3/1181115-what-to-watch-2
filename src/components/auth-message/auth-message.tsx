@@ -1,4 +1,5 @@
 import { useAppSelector } from '../../hooks';
+import { getUserError } from '../../store/selectors/user-selector';
 
 type MessageProps = {
   message: string;
@@ -6,7 +7,7 @@ type MessageProps = {
 
 
 function AuthMessage({message}: MessageProps): JSX.Element | null {
-  const error = useAppSelector((state)=> state.user.error);
+  const error = useAppSelector(getUserError);
 
   const showedMessage = message || error;
 

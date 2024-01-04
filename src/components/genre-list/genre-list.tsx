@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { useEffect } from 'react';
-import { setActiveGenre } from '../../store/action';
+import { setActiveGenre } from '../../store/slices/films-slice';
 
 
 type Props = {

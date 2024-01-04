@@ -7,11 +7,13 @@ import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
 import { useEffect } from 'react';
 import { fetchMyFilmsAction } from '../../store/api-actions/api-favorite-actions';
+import { getSimilarFilms } from '../../store/selectors/film-selector';
+import { getIsMyFilmsLoading } from '../../store/selectors/favorite-selector';
 
 
 function MyList(): JSX.Element {
-  const isDataLoading = useAppSelector((state) => state.favorites.isMyFilmsLoading);
-  const myFilms = useAppSelector((state) => state.favorites.myFilms);
+  const isDataLoading = useAppSelector(getIsMyFilmsLoading);
+  const myFilms = useAppSelector(getSimilarFilms);
   const dispatch = useAppDispatch();
 
   useEffect(()=>{

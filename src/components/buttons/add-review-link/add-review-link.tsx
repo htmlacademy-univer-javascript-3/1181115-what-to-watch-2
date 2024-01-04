@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../../const.ts';
+import { getIsAuth } from '../../../store/selectors/user-selector.ts';
 
 
 interface AddReviewLinkProps {
@@ -8,7 +9,7 @@ interface AddReviewLinkProps {
 }
 
 export default function AddReviewLink({ id }: AddReviewLinkProps) {
-  const { authorizationStatus } = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector(getIsAuth);
 
   return authorizationStatus === AuthorizationStatus.Auth ? (
     <Link

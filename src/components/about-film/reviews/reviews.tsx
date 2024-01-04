@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { UserComment } from '../../../types';
 import { useParams } from 'react-router-dom';
 import { fetchUsersCommentsAction } from '../../../store/api-actions/api-review-action';
+import { getUserComments } from '../../../store/selectors/review-selector';
 
 
 const MAX_COL = 2;
@@ -28,7 +29,7 @@ function FilmReview({ date, user, comment, rating}: UserComment): JSX.Element{
 }
 
 function ReviewsBlock(): JSX.Element {
-  const reviews = useAppSelector((state)=>state.reviews.userComments);
+  const reviews = useAppSelector(getUserComments);
   const dispatch = useAppDispatch();
 
   const { id = '' } = useParams();

@@ -3,7 +3,7 @@ import { UserData} from '../types';
 import { AppRoute } from '../const';
 
 
-export const setActiveGenre = createAction<string>('genre/setActiveGenre');
+// export const setActiveGenre = createAction<string>('genre/setActiveGenre');
 export const redirectToRoute = createAction<AppRoute|string>('redirectToRoute');
 
 export const setAuthLoadingStatus = createAction<boolean>('data/setAuthLoadingStatus');
