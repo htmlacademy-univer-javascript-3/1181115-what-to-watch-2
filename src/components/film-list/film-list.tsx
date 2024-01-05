@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Film} from '../../types';
-import FilmCard from '../film-card.jsx/film-card';
+import FilmCard from '../film-card/film-card';
 
 type Props = {
   films: Film[];

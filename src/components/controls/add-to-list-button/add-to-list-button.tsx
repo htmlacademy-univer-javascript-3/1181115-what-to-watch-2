@@ -1,12 +1,13 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 
-import { changeFilmStatusAction } from '../../../store/api-actions/api-films-actions';
-import { AuthorizationStatus } from '../../../const';
+import { changeFilmStatusAction } from '../../../store/api-actions/api-favorite-actions';
+import { AppRoute, AuthorizationStatus } from '../../../const';
 import { fetchMyFilmsAction } from '../../../store/api-actions/api-favorite-actions';
-import { getIsMyFilmsLoading, getMyFilms } from '../../../store/selectors/favorite-selector';
+import { getIsMyFilmsLoading } from '../../../store/selectors/favorite-selector';
 import { getPromoFilm } from '../../../store/selectors/films-selector';
 import { getIsAuth } from '../../../store/selectors/user-selector';
+import { useMyFilms } from '../../../hooks/use-my-films';
 
 
 type AddButtonProps = {
@@ -14,13 +15,14 @@ type AddButtonProps = {
 };
 
 function AddToListButton({listLength}:AddButtonProps): JSX.Element |null{
-  const myFilms = useAppSelector(getMyFilms);
+  const {myFilms} = useMyFilms();
   const isMyFilmsLoading = useAppSelector(getIsMyFilmsLoading);
   const propmoFilmId = useAppSelector(getPromoFilm)?.id;
   const authStatus = useAppSelector(getIsAuth);
   const isAuth = authStatus === AuthorizationStatus.Auth;
 
   const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id = '' } = useParams();
 
@@ -32,12 +34,16 @@ function AddToListButton({listLength}:AddButtonProps): JSX.Element |null{
 
 
   const handleButtonClick = () => {
-    if (currentFilmId && isAuth){
-      dispatch(changeFilmStatusAction({
-        id: currentFilmId,
-        status: isFilmAdded ? 0 : 1,
-      }))
-        .then(() => dispatch(fetchMyFilmsAction()));
+    if(isAuth){
+      if (currentFilmId){
+        dispatch(changeFilmStatusAction({
+          id: currentFilmId,
+          status: isFilmAdded ? 0 : 1,
+        }))
+          .then(() => dispatch(fetchMyFilmsAction()));
+      }
+    }else{
+      navigate(AppRoute.Login);
     }
   };
 

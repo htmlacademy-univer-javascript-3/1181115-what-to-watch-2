@@ -7,27 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Logo from '../../components/logo/logo';
 import { getIsAuth } from '../../store/selectors/user-selector';
+import { isLoginValid } from '../../functions/isLoginValid';
+import { isPasswordValid } from '../../functions/isPasswordVavid';
+import { toast } from 'react-toastify';
 
-
-const EMAIL_TEMPLATE = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const LOGIN_TEMPLATE = /(([a-zA-Z].*\d)|(\d.*[a-zA-Z]))/;
-
-
-function isLoginValid(login: string){
-  return (
-    login !== '' &&
-    login !== null &&
-    login.match(EMAIL_TEMPLATE)
-  );
-}
-
-function isPasswordValid(password: string){
-  return (
-    password !== '' &&
-    password !== null &&
-    (password.match(LOGIN_TEMPLATE))
-  );
-}
 
 function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -56,6 +39,10 @@ function SignIn(): JSX.Element {
           login: loginRef.current.value,
           password: passwordRef.current.value,
         }));
+        toast.success('You are logged in!', {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 1500,
+        });
       }
 
     }

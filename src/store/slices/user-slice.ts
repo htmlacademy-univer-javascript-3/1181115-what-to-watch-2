@@ -1,24 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, NameSpace } from '../../const';
-import { setAuthorization, setAuthorizationError, setUserData } from '../action';
 import { UserData } from '../../types';
+import { checkAuthAction, loginAction, logoutAction } from '../api-actions/api-user-actions';
 
 
 export type StateType = {
-  user: UserData;
+  user: UserData | null;
   authorizationStatus: string;
   error: string | null;
-  isAuthLoading: boolean;
 };
 
-const initialState: StateType = {
-  user: {
-    name: '',
-    avatarUrl: '',
-    email: '',
-    token: '',
-  },
-  isAuthLoading: false,
+export const initialState: StateType = {
+  user: null,
   authorizationStatus: AuthorizationStatus.NoAuth,
   error: null,
 };
@@ -26,19 +19,26 @@ const initialState: StateType = {
 export const userSlice = createSlice({
   name: NameSpace.Films,
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthorizationError:(state, action:PayloadAction<string>) => {
+      state.error = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
-      .addCase(setAuthorization, (state, action) => {
-        state.authorizationStatus = action.payload;
-      })
-
-      .addCase(setUserData, (state, action) => {
+      .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.authorizationStatus = AuthorizationStatus.Auth;
       })
 
-      .addCase(setAuthorizationError, (state, action) =>{
-        state.error = action.payload;
+      .addCase(loginAction.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.authorizationStatus = AuthorizationStatus.Auth;
+      })
+
+      .addCase(logoutAction.fulfilled, (state) => {
+        state.user = null;
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
       });
   }
 });

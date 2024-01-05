@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { useAppSelector } from '../../../hooks';
-import { processRatingLevel } from './processRatingLevel';
+import { processRatingLevel } from '../../../functions/processRatingLevel';
 import { getCurrentFilm } from '../../../store/selectors/film-selector';
 
 

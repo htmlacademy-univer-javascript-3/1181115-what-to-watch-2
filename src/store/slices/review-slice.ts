@@ -9,7 +9,7 @@ export type StateType = {
   isCommentsLoading: boolean;
 };
 
-const initialState: StateType = {
+export const initialState: StateType = {
   userComments: [],
   isCommentsLoading: false,
 };

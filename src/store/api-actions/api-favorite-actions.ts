@@ -4,7 +4,7 @@ import { APIRoute } from '../../const';
 
 
 export const fetchMyFilmsAction = createAsyncThunk <Film[], undefined, AsyncActionConfig >(
-  'data/fetchMyFilms',
+  'favorite/fetchMyFilms',
   async(_arg, { extra: api}) => {
     const {data} = await api.get<Film[]>(APIRoute.MyFilms);
     return(data);

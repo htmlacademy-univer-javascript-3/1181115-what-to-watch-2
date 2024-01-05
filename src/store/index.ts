@@ -10,7 +10,7 @@ import { reviewSlice } from './slices/review-slice';
 
 const api = createAPI();
 
-const reducer = combineReducers({
+export const rootReducer = combineReducers({
   [NameSpace.Films]: filmsSlice.reducer,
   [NameSpace.Film]: fullFilmSlice.reducer,
   [NameSpace.MyFilms]: favoritesSlice.reducer,
@@ -19,7 +19,7 @@ const reducer = combineReducers({
 });
 
 export const store = configureStore({
-  reducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

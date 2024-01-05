@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { UserComment } from '../../../types';
 import { useParams } from 'react-router-dom';
 import { fetchUsersCommentsAction } from '../../../store/api-actions/api-review-action';
-import { getUserComments } from '../../../store/selectors/review-selector';
+import { getIsCommentsLoading, getUserComments } from '../../../store/selectors/review-selector';
 
 
 const MAX_COL = 2;
@@ -28,8 +28,9 @@ function FilmReview({ date, user, comment, rating}: UserComment): JSX.Element{
   );
 }
 
-function ReviewsBlock(): JSX.Element {
+function ReviewsBlock(): JSX.Element | null {
   const reviews = useAppSelector(getUserComments);
+  const isCommentsLoading = useAppSelector(getIsCommentsLoading);
   const dispatch = useAppDispatch();
 
   const { id = '' } = useParams();
@@ -42,22 +43,25 @@ function ReviewsBlock(): JSX.Element {
   const maxReviewNumber = Math.ceil(reviews.length / MAX_COL);
 
   return(
-    <div className="film-card__reviews film-card__row">
-      <div className="film-card__reviews-col" >
-        {
-          reviews?.slice(0, maxReviewNumber).map((review)=>(
-            <FilmReview key={review.id} {...review}/>
-          ))
-        }
-      </div>
-      <div className="film-card__reviews-col" >
-        {
-          reviews?.slice(maxReviewNumber).map((review)=>(
-            <FilmReview key={review.id} {...review} />
-          ))
-        }
-      </div>
-    </div>
+    (isCommentsLoading) ? null :
+      (
+        <div className="film-card__reviews film-card__row">
+          <div className="film-card__reviews-col" >
+            {
+              reviews?.slice(0, maxReviewNumber).map((review)=>(
+                <FilmReview key={review.id} {...review}/>
+              ))
+            }
+          </div>
+          <div className="film-card__reviews-col" >
+            {
+              reviews?.slice(maxReviewNumber).map((review)=>(
+                <FilmReview key={review.id} {...review} />
+              ))
+            }
+          </div>
+        </div>
+      )
   );
 }
 
