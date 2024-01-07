@@ -1,7 +1,12 @@
-function LoadingBlock(): JSX.Element {
+import './loading-block.css';
+
+function LoadingBlock() {
   return (
-    <p>Loading ...</p>
+    <div className='loading-block-container'>
+      <span className='loading-block' role='loading-block'></span>
+    </div>
   );
 }
 
 export default LoadingBlock;
+

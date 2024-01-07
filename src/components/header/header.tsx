@@ -1,15 +1,23 @@
-import UserBlock from '../user-block/user-block';
-import Logo from '../logo/logo';
+import HeaderLogo from './header-logo/header-logo';
+import HeaderUserBlock from './header-user-block/header-user-block';
+import HeadGuest from './header-guest/header-guest';
+import { HeaderProps } from '../../types/types';
+import { useAppSelector } from '../../hooks';
+import { AuthorisationStatus } from '../../consts';
+import { getAuthStatus } from '../../store/user/selectors';
 
+function Header({linkLogo, children, classes}:HeaderProps){
+  const authorisationStatus = useAppSelector(getAuthStatus);
 
-function Header() {
-  return (
-    <header className="page-header film-card__head">
-      <div className="logo">
-        <Logo styleType='off'/>
-      </div>
-
-      <UserBlock />
+  return(
+    <header className={`page-header ${classes === undefined ? '' : classes}`}>
+      <HeaderLogo linkLogo={linkLogo} />
+      {children}
+      {
+        authorisationStatus === AuthorisationStatus.Auth
+          ? <HeaderUserBlock />
+          : <HeadGuest />
+      }
     </header>
   );
 }
