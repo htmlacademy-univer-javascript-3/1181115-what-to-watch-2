@@ -1,80 +1,77 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AddToListButtonProps } from '../../../types/types';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
+import { getCountFilmsInMyList, getFilmsInMyList } from '../../../store/my-list/selectors';
+import { addFilmToFavoriteAction, removeFilmToFavoriteAction } from '../../../store/api-actions';
+import { getAuthStatus } from '../../../store/user/selectors';
+import { AuthorisationStatus, AppRoutes } from '../../../consts';
 
-import { changeFilmStatusAction } from '../../../store/api-actions/api-favorite-actions';
-import { AppRoute, AuthorizationStatus } from '../../../const';
-import { fetchMyFilmsAction } from '../../../store/api-actions/api-favorite-actions';
-import { getIsMyFilmsLoading } from '../../../store/selectors/favorite-selector';
-import { getPromoFilm } from '../../../store/selectors/films-selector';
-import { getIsAuth } from '../../../store/selectors/user-selector';
-import { useMyFilms } from '../../../hooks/use-my-films';
-
-
-type AddButtonProps = {
-  listLength: number;
-};
-
-function AddToListButton({listLength}:AddButtonProps): JSX.Element |null{
-  const {myFilms} = useMyFilms();
-  const isMyFilmsLoading = useAppSelector(getIsMyFilmsLoading);
-  const propmoFilmId = useAppSelector(getPromoFilm)?.id;
-  const authStatus = useAppSelector(getIsAuth);
-  const isAuth = authStatus === AuthorizationStatus.Auth;
-
-  const location = useLocation();
-  const navigate = useNavigate();
+function AddToListButton({film}: AddToListButtonProps){
   const dispatch = useAppDispatch();
-  const { id = '' } = useParams();
+  const countFilmsInMyList = useAppSelector(getCountFilmsInMyList);
+  const filmsInMyList = useAppSelector(getFilmsInMyList);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const authorisationStatus = useAppSelector(getAuthStatus);
+  const navigate = useNavigate();
+  const [countFilms, setCountFilms] = useState(0);
 
-  const currentFilmId = (location.pathname === '/')
-    ? propmoFilmId
-    : id ;
+  useEffect(() => {
+    if (authorisationStatus === AuthorisationStatus.Auth) {
+      setCountFilms(countFilmsInMyList);
+    } else {
+      setCountFilms(0);
+    }
+  }, [authorisationStatus, countFilmsInMyList]);
 
-  const isFilmAdded = myFilms.some((film)=>film.id === currentFilmId);
+  useEffect(() => {
+    const findFilmInMyList = filmsInMyList.find((filmMyList) => film.id === filmMyList.id);
 
+    if(findFilmInMyList){
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, [film.id, filmsInMyList]);
 
-  const handleButtonClick = () => {
-    if(isAuth){
-      if (currentFilmId){
-        dispatch(changeFilmStatusAction({
-          id: currentFilmId,
-          status: isFilmAdded ? 0 : 1,
-        }))
-          .then(() => dispatch(fetchMyFilmsAction()));
+  const handleMyListBtnClick = () => {
+    if (authorisationStatus === AuthorisationStatus.Auth){
+      if (isFavorite === false) {
+        if (film.id !== undefined) {
+          dispatch(addFilmToFavoriteAction(film.id));
+          setIsFavorite(true);
+        }
+      } else {
+        dispatch(removeFilmToFavoriteAction(film.id));
+        setIsFavorite(false);
       }
-    }else{
-      navigate(AppRoute.Login);
+    } else {
+      navigate(AppRoutes.Login);
+      setCountFilms(0);
     }
   };
 
-
   return (
-    (isMyFilmsLoading) ?
-      null
-      :
-      <button
-        className="btn btn--list film-card__button"
-        type="button"
-        onClick={handleButtonClick}
-      >
+    <button
+      className="btn btn--list film-card__button"
+      type="button"
+      onClick={handleMyListBtnClick}
+    >
+      <svg viewBox="0 0 19 20" width="19" height="20">
         {
-          isFilmAdded ?
-            (
-              <svg viewBox="0 0 18 14" width="18" height="14">
-                <use xlinkHref="#in-list"></use>
-              </svg>
-            )
-            :
-            (
-              <svg viewBox="0 0 19 20" width="19" height="20">
-                <use xlinkHref="#add"></use>
-              </svg>
-            )
+          isFavorite && authorisationStatus === AuthorisationStatus.Auth
+            ? <use xlinkHref="#in-list"></use>
+            : <use xlinkHref="#add"></use>
         }
-
-        <span>My list</span>
-        <span className="film-card__count">{listLength}</span>
-      </button>
+      </svg>
+      <span>My list</span>
+      <span
+        className="film-card__count"
+        data-testid='my-list-count'
+      >
+        {countFilms}
+      </span>
+    </button>
   );
 }
 

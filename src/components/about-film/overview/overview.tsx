@@ -1,42 +1,47 @@
-import { v4 as uuid } from 'uuid';
+import React from 'react';
+import { getRatingDescription } from '../../../utils/functions/get-rating-description/get-rating-description';
 import { useAppSelector } from '../../../hooks';
-import { processRatingLevel } from '../../../functions/processRatingLevel';
-import { getCurrentFilm } from '../../../store/selectors/film-selector';
+import { getFilmInfo } from '../../../store/film/selectors';
 
+function Overview() {
+  const film = useAppSelector(getFilmInfo);
 
-const MAX_PEOPLE = 4;
-
-function Overview(): JSX.Element | null {
-  const fullFilm = useAppSelector(getCurrentFilm);
-
-  const descriptionText = fullFilm?.description.split('\n').map((d:string) => ({id: uuid(), paragraph: d}));
-
-  return(
-    (fullFilm) &&
+  return (
     <>
-      <div className="film-rating">
-        <div className="film-rating__score">{fullFilm.rating.toFixed(1).replace(/\./g, ',')}</div>
+      <div className="film-rating" data-testid="film-tab-overview">
+        <div className="film-rating__score" data-testid="film-rating-score">
+          {film.rating.toFixed(1)}
+        </div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{processRatingLevel(fullFilm.rating)}</span>
-          <span className="film-rating__count">{fullFilm.scoresCount} ratings</span>
+          <span className="film-rating__level" data-testid="film-rating-level">
+            {getRatingDescription(film.rating)}
+          </span>
+          <span className="film-rating__count" data-testid="film-rating-count">
+            {film.scoresCount} ratings
+          </span>
         </p>
       </div>
 
       <div className="film-card__text">
-        {
-          descriptionText?.map((text)=>(
-            <p key={text.id}>{text.paragraph}</p>
-          ))
-        }
-
+        <p>{film.description}</p>
         <p className="film-card__director">
-          <strong>Director: {fullFilm.director}</strong>
+          <strong data-testid="film-card-director">
+            {`Director: ${film.director}`}
+          </strong>
         </p>
-
         <p className="film-card__starring">
-          <strong>
-            Starring: {fullFilm.starring.slice(0,MAX_PEOPLE).join(', ')}
-            {(fullFilm.starring.length > MAX_PEOPLE) && ' and other'}
+          <strong data-testid="film-card-starring">
+            Starring:
+            {film.starring
+              .filter((_, idx) => idx < film.starring.length - 1)
+              .map((fio) => (
+                <React.Fragment key={fio}> {fio},</React.Fragment>
+              ))}
+            {film.starring
+              .filter((_, idx) => idx === film.starring.length - 1)
+              .map((fio) => (
+                <React.Fragment key={fio}> {fio}</React.Fragment>
+              ))}
           </strong>
         </p>
       </div>

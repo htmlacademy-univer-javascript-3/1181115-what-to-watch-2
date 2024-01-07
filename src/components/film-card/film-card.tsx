@@ -1,39 +1,42 @@
-import { Link } from 'react-router-dom';
-import { Film } from '../../types';
-import { AppRoute } from '../../const';
-import VideoPreview from '../video-preview/video-preview';
+import { useNavigate, Link } from 'react-router-dom';
+import { FilmCardStateProps } from '../../types/types';
+import VideoPlayer from '../video-player/video-player';
+import { VIDEO_TIMEOUT, FilmCardSize } from '../../consts';
+import './film-card.css';
 
+function FilmCard({ id, previewImage, name, active, onFilmCardMouseEvent, previewVideoLink }: FilmCardStateProps) {
+  const navigate = useNavigate();
 
-type FilmCardProps = Film & {
-  isActive: boolean;
-  onMouseMove: (id : string| null) => void ;
-};
-
-function FilmCard(props: FilmCardProps): JSX.Element {
-  const {id, name, previewImage, previewVideoLink, onMouseMove, isActive} = props;
+  const handleFilmCardClick = () => {
+    navigate(`/films/${id}`);
+  };
 
   return (
     <article
-      onMouseEnter={()=>onMouseMove(id)}
-      onMouseLeave={()=>onMouseMove(null)}
       className="small-film-card catalog__films-card"
+      onMouseOver={() => onFilmCardMouseEvent(id)}
+      onMouseLeave={() => onFilmCardMouseEvent(null)}
     >
-      <Link
-        to={AppRoute.Film.replace(':id', id)}
-        className="small-film-card__link"
+      <div
+        data-testid="film-card"
+        className="small-film-card__image small-film-card_hover"
+        onClick={() => handleFilmCardClick()}
       >
-        <div className="small-film-card__image">
-          <VideoPreview
-            src={previewVideoLink}
-            isActive={isActive}
-            poster={previewImage}
-            name={name}
-          />
-        </div>
-        <h3 className="small-film-card__title">
+        <VideoPlayer
+          active={active}
+          src={previewVideoLink}
+          img={previewImage}
+          filmTitle={name}
+          videoTimeout={VIDEO_TIMEOUT}
+          width={FilmCardSize.Width}
+          height={FilmCardSize.Height}
+        />
+      </div>
+      <h3 className="small-film-card__title">
+        <Link className="small-film-card__link" to={`/films/${id}`}>
           {name}
-        </h3>
-      </Link>
+        </Link>
+      </h3>
     </article>
   );
 }

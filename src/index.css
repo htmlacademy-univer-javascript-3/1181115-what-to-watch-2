@@ -1,0 +1,26 @@
+.Toastify__toast-container {
+  width: 500px;
+}
+.Toastify__toast--default {
+    background: #fff;
+    color: #aaa;
+}
+.Toastify__toast--info {
+  background: rgba(56,44,42, 1);
+}
+.Toastify__toast--success {
+  background: rgba(56,44,42, 1);
+  color: white;
+}
+.Toastify__toast--warning {
+  background: rgba(56,44,42, 1);
+}
+.Toastify__toast--error {
+  background: rgba(56,44,42, 1);
+}
+.Toastify__close-button {
+  color: white;
+}
+.Toastify__close-button > svg {
+  color: white;
+}

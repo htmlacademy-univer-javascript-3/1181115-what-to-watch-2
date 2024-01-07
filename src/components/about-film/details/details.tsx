@@ -1,29 +1,29 @@
-import { Fragment} from 'react';
+import React from 'react';
 import { useAppSelector } from '../../../hooks';
-import { processRunTime } from '../../../functions/processRunTime';
-import { getCurrentFilm } from '../../../store/selectors/film-selector';
+import { getFilmInfo } from '../../../store/film/selectors';
 
+function Details() {
+  const film = useAppSelector(getFilmInfo);
 
-function Details(): JSX.Element | null{
-  const fullFilm = useAppSelector(getCurrentFilm);
-
-  return(
-    (fullFilm) &&
-    <div className="film-card__text film-card__row">
+  return (
+    <div className="film-card__text film-card__row" data-testid='film-tab-details'>
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{fullFilm.director}</span>
+          <span className="film-card__details-value" data-testid='film-card-details-director'>{film.director}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
-          <span className="film-card__details-value">
+          <span className="film-card__details-value" data-testid='film-card-details-starring'>
             {
-              fullFilm.starring.map((name) =>(
-                <Fragment key={name}>
-                  {name}<br/>
-                </Fragment>
-              ))
+              film.starring
+                .filter((_, idx) => idx < film.starring.length - 1)
+                .map((star) => <React.Fragment key={`details-starring${star}`}>{star},<br/></React.Fragment>)
+            }
+            {
+              film.starring
+                .filter((_, idx) => idx === film.starring.length - 1)
+                .map((star) => <React.Fragment key={`details-starring${star}`}>{star}</React.Fragment>)
             }
           </span>
         </p>
@@ -32,15 +32,21 @@ function Details(): JSX.Element | null{
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{processRunTime(fullFilm.runTime)}</span>
+          <span className="film-card__details-value">
+            {`${Math.floor(film.runTime / 60)}h ${film.runTime % 60}m`}
+          </span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{fullFilm.genre}</span>
+          <span className="film-card__details-value" data-testid='film-card-details-genre'>
+            {film.genre}
+          </span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{fullFilm.released}</span>
+          <span className="film-card__details-value" data-testid='film-card-details-released'>
+            {film.released}
+          </span>
         </p>
       </div>
     </div>

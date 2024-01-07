@@ -1,8 +1,5 @@
-import {createAction} from '@reduxjs/toolkit';
-import { AppRoute } from '../const';
+import { createAction } from '@reduxjs/toolkit';
+import { AppRoutes } from '../consts';
 
+export const redirectToRoute = createAction<AppRoutes | string>('REDIRECT/redirectToRoute');
 
-export const redirectToRoute = createAction<AppRoute|string>('redirectToRoute');
-
-export const setAuthLoadingStatus = createAction<boolean>('user/setAuthLoadingStatus');
-export const setAuthorizationError = createAction<string | null>('user/setAuthorizationError');

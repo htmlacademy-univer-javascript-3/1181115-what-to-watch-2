@@ -1,36 +1,29 @@
-import { forwardRef, memo } from 'react';
+import { useEffect, useRef } from 'react';
+import { VideoPlayerProps } from '../../types/types';
 
-export interface VideoPlayerProps {
-  videoLink: string;
-  posterImage: string;
-  onTimeUpdate?: () => void;
-  muted?: boolean;
-  autoPlay?: boolean;
+function VideoPlayer({active, src, img, filmTitle, videoTimeout, width, height}:VideoPlayerProps){
+  const videoPlayerRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    videoPlayerRef.current?.load();
+    if (active) {
+      const timerId = setTimeout(()=> {
+        videoPlayerRef.current?.play();
+      }, videoTimeout);
+      return () => clearTimeout(timerId);
+    } else {
+      if(videoPlayerRef.current !== null){
+        videoPlayerRef.current.pause();
+        videoPlayerRef.current.currentTime = 0;
+      }
+    }
+  });
+
+  return (
+    active
+      ? <video data-testid='video' preload='metadata' ref={videoPlayerRef} src={src} width={width} height={height} poster={img} muted loop />
+      : <img src={img} alt={filmTitle} width={width} height={height} />
+  );
 }
 
-const Player = forwardRef<HTMLVideoElement, VideoPlayerProps>((
-  {
-    videoLink,
-    posterImage,
-    onTimeUpdate,
-    muted = false,
-    autoPlay = false,
-  },
-  ref
-) => (
-  <video
-    ref={ref}
-    className="player__video"
-    poster={posterImage}
-    onTimeUpdate={onTimeUpdate}
-    muted={muted}
-    autoPlay={autoPlay}
-    data-testid="video-player"
-  >
-    <source src={videoLink} />
-  </video>
-));
-
-Player.displayName = 'VideoPlayer';
-
-export const VideoPlayer = memo(Player);
+export default VideoPlayer;
