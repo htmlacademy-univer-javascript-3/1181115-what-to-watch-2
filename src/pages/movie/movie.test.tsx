@@ -1,20 +1,19 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from 'vitest';
 import { withHistory, withStore } from '../../utils/mock-component';
-import FilmPage from './film-page';
+import Movie from './movie';
 import { NameSpace, AuthorisationStatus, APIRoute, AppRoutes } from '../../consts';
 import { userInfo, extractActionsTypes, filmInfo } from '../../utils/mock-data';
-import { updateGenre } from '../../store/films/films-slice';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import { MemoryHistory, createMemoryHistory } from 'history';
 
-describe('Component: FilmPage', () => {
+describe('Component: Movie', () => {
   const mockFilm = filmInfo();
   const mockUser = userInfo();
 
   it('should render correctly and load data', async () => {
     const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(
-      <FilmPage />,
+      <Movie />,
       {
         [NameSpace.Film]: {
           comments: [],
@@ -48,7 +47,6 @@ describe('Component: FilmPage', () => {
     expect(screen.getByRole('navigation')).toBeInTheDocument();
     expect(screen.getByText(/more like this/i)).toBeInTheDocument();
     await waitFor(() => expect(extractActionsTypes(mockStore.getActions())).toEqual([
-      updateGenre.type,
       fetchFavoriteFilmsAction.pending.type,
       fetchFavoriteFilmsAction.fulfilled.type
     ]));

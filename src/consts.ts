@@ -14,36 +14,13 @@ export enum AuthorisationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const VIDEO_TIMEOUT = 1000;
-
-export const TABS = ['Overview', 'Details', 'Reviews'];
-
-export enum RatingDescription {
+export enum RatingLevel {
   Bad = 'Bad',
   Normal = 'Normal',
   Good = 'Good',
   VeryGood = 'Very good',
   Awesome = 'Awesome',
 }
-
-export enum GenresEnum {
-  AllGenres = 'All genres',
-  Comedies = 'Comedy',
-  Crime = 'Crime',
-  Drama = 'Drama',
-  Thriller = 'Thriller',
-  Action = 'Action',
-  Adventure = 'Adventure',
-  Horror = 'Horror',
-  Documentary = 'Documentary',
-  KidsAndFamily = 'Kids & Family',
-  Romance = 'Romance',
-  SciFi = 'Sci-Fi',
-}
-
-export const MAX_NUM_FILMS = 8;
-
-export const NUM_SIMILAR_FILM = 3;
 
 export enum APIRoute {
   Films = '/films',
@@ -54,11 +31,7 @@ export enum APIRoute {
   Logout = '/logout',
 }
 
-export const MAX_NUM_GENRES = 10;
-
-export const MAX_NUM_SIMILAR_FILM = 4;
-
-export const enum ReviewConsts {
+export const enum ReviewLimits {
   MinLength = 50,
   MaxLength = 400
 }
@@ -85,4 +58,14 @@ export enum FilmCardSize {
   Height = '175'
 }
 
+export const TABS = ['Overview', 'Details', 'Reviews'];
+
 export const NUM_RATING_STAR = 10;
+
+export const MAX_NUM_GENRES = 10;
+
+export const MAX_NUM_SIMILAR_FILM = 4;
+
+export const MAX_PEOPLE = 4;
+
+export const VIDEO_TIMEOUT = 1000;

@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 import Rating from '../rating/rating';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendCommentAction } from '../../store/api-actions';
-import { ReviewConsts } from '../../consts';
+import { ReviewLimits } from '../../consts';
 import {
-  getFilmInfo,
+  getFilmDetails,
   getLoadingStatus,
   getError,
 } from '../../store/film/selectors';
@@ -18,14 +18,14 @@ function CommentForm() {
   const [readOnly, setReadOnly] = useState(false);
   const [isChecked, setIsChecked] = useState<boolean | undefined>(undefined);
 
-  const { id } = useAppSelector(getFilmInfo);
+  const { id } = useAppSelector(getFilmDetails);
   const isLoading = useAppSelector(getLoadingStatus);
   const error = useAppSelector(getError);
 
   useEffect(() => {
     if (
-      reviewText.length >= ReviewConsts.MinLength &&
-      reviewText.length <= ReviewConsts.MaxLength &&
+      reviewText.length >= ReviewLimits.MinLength &&
+      reviewText.length <= ReviewLimits.MaxLength &&
       rating > 0
     ) {
       setBtnDisabled(false);

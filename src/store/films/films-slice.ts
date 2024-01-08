@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace, GenresEnum } from '../../consts';
+import { NameSpace } from '../../consts';
 import { FilmsSlice } from '../../types/state';
-import { fetchFilmsAction, fetchPromoFilmAction } from '../api-actions';
+import { fetchFilmsAction, fetchPromoAction } from '../api-actions';
 
 const initialState: FilmsSlice = {
-  genre: GenresEnum.AllGenres,
+  genre: '',
   films: [],
   isLoading: false,
   promoFilm: {
@@ -23,7 +23,7 @@ export const filmsSlice = createSlice({
   name: NameSpace.Films,
   initialState,
   reducers: {
-    updateGenre: (state, action: PayloadAction<string>) => {
+    setActiveGenre: (state, action: PayloadAction<string>) => {
       state.genre = action.payload;
     },
   },
@@ -36,11 +36,11 @@ export const filmsSlice = createSlice({
         state.films = action.payload;
         state.isLoading = false;
       })
-      .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
+      .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promoFilm = action.payload;
       });
   },
 });
 
-export const { updateGenre } = filmsSlice.actions;
+export const { setActiveGenre } = filmsSlice.actions;
 

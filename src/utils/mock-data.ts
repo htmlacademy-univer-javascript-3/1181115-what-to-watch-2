@@ -1,11 +1,11 @@
 import * as faker from 'faker';
-import { FilmCardProps, LoadableComment, LoadableFilm, UserData, PromoFilm, AuthData } from '../types/types';
+import { FilmCardProps, UserComment, FullFilm, UserData, PromoFilm, AuthData } from '../types/types';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { AuthorisationStatus } from '../consts';
 
-export const filmReview = (): LoadableComment => ({
+export const filmReview = (): UserComment => ({
   id: faker.datatype.uuid(),
   date: faker.datatype.datetime().toDateString(),
   user: faker.name.findName(),
@@ -13,7 +13,7 @@ export const filmReview = (): LoadableComment => ({
   rating: faker.datatype.number({ max: 10 }),
 });
 
-export const generateFilmReviewArr = (arrayLength: number): LoadableComment[] => (
+export const generateFilmReviewArr = (arrayLength: number): UserComment[] => (
   Array.from({ length: arrayLength }, () => filmReview())
 );
 
@@ -24,7 +24,7 @@ export const userInfo = (): UserData => ({
   token: faker.datatype.string(),
 });
 
-export const filmInfo = (): LoadableFilm => ({
+export const filmInfo = (): FullFilm => ({
   id: faker.datatype.uuid(),
   name: faker.commerce.productName(),
   posterImage: faker.image.imageUrl(),

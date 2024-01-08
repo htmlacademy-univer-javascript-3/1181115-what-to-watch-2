@@ -30,7 +30,7 @@
   display: block;
   z-index: 1;
   overflow: hidden;
-  background: transparent;
+  background: rgb(299,200,100,0.3);
   position: relative;
   padding: 8px 20px;
   border-radius: 10px;
@@ -42,7 +42,7 @@
   margin: 5px 0px;
 
   color: white;
-  border: 4px solid white;
+  border: none;
   font-size: 1.2em;
   line-height: 1.5em;
   text-decoration: none;

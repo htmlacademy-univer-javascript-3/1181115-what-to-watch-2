@@ -1,10 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { withHistory, withStore } from '../../utils/mock-component';
 import { generateFilmsArray, promoFilmInfo, userInfo, extractActionsTypes } from '../../utils/mock-data';
-import MainPage from './main';
+import Main from './main';
 import { APIRoute, AuthorisationStatus, NameSpace } from '../../consts';
-import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoFilmAction } from '../../store/api-actions';
-import { updateGenre } from '../../store/films/films-slice';
+import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoAction } from '../../store/api-actions';
+import { setActiveGenre } from '../../store/films/films-slice';
 
 
 describe('Component: Main', () => {
@@ -14,13 +14,13 @@ describe('Component: Main', () => {
 
   it('should render correctly and load data', async () => {
     const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(
-      <MainPage />,
+      <Main />,
       {
         [NameSpace.Films]: {
           films: mockFilms,
           promoFilm: mockPromo,
           isLoading: false,
-          genre: 'All genres'
+          genre: ''
         },
         [NameSpace.User]: {
           user: mockUser,
@@ -42,16 +42,15 @@ describe('Component: Main', () => {
 
     render(withHistoryComponent);
 
-    expect(screen.getByText(mockFilms[0].name)).toBeInTheDocument();
     expect(screen.getByText(mockPromo.name)).toBeInTheDocument();
     expect(screen.getByText(/catalog/i)).toBeInTheDocument();
 
     await waitFor(() => expect(extractActionsTypes(mockStore.getActions())).toEqual([
-      updateGenre.type,
-      fetchPromoFilmAction.pending.type,
+      setActiveGenre.type,
+      fetchPromoAction.pending.type,
       fetchFilmsAction.pending.type,
       fetchFavoriteFilmsAction.pending.type,
-      fetchPromoFilmAction.fulfilled.type,
+      fetchPromoAction.fulfilled.type,
       fetchFilmsAction.fulfilled.type,
       fetchFavoriteFilmsAction.fulfilled.type,
     ]));

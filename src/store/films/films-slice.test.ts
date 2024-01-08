@@ -1,7 +1,6 @@
-import { GenresEnum } from '../../consts';
 import { generateFilmsArray, promoFilmInfo } from '../../utils/mock-data';
-import { fetchFilmsAction, fetchPromoFilmAction } from '../api-actions';
-import { filmsSlice, updateGenre } from './films-slice';
+import { fetchFilmsAction, fetchPromoAction } from '../api-actions';
+import { filmsSlice, setActiveGenre } from './films-slice';
 
 describe('FilmsSlice slice', () => {
   const emptyAction = { type: '' };
@@ -18,7 +17,7 @@ describe('FilmsSlice slice', () => {
 
   it('should return initial state with empty action', () => {
     const expectedState = {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: generateFilmsArray(25),
       isLoading: false,
       promoFilm: promoFilmInfo(),
@@ -30,7 +29,7 @@ describe('FilmsSlice slice', () => {
 
   it('should return default initial state with empty action and undefind state', () => {
     const expectedState = {
-      genre: GenresEnum.AllGenres,
+      genre:'',
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -40,28 +39,28 @@ describe('FilmsSlice slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should update "genre" in state with "updateGenre" action', () => {
+  it('should update "genre" in state with "setActiveGenre" action', () => {
     const initialState = {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
     };
 
     const expectedState = {
-      genre: GenresEnum.Drama,
+      genre: 'Drama',
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
     };
 
-    const result = filmsSlice.reducer(initialState, updateGenre(GenresEnum.Drama));
+    const result = filmsSlice.reducer(initialState, setActiveGenre('Drama'));
     expect(result).toEqual(expectedState);
   });
 
   it('should update "isLoading" to "true" in state with "fetchFilmsAction.pending" action', () => {
     const expectedState = {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: [],
       isLoading: true,
       promoFilm: initialPromoFilm,
@@ -75,7 +74,7 @@ describe('FilmsSlice slice', () => {
     const films = generateFilmsArray(25);
 
     const expectedState = {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: films,
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -85,9 +84,9 @@ describe('FilmsSlice slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should update "promoFilm" in state with "fetchPromoFilmAction.fulfilled" action', () => {
+  it('should update "promoFilm" in state with "fetchPromoAction.fulfilled" action', () => {
     const initialState = {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -96,13 +95,13 @@ describe('FilmsSlice slice', () => {
     const promoFilm = promoFilmInfo();
 
     const expectedState = {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: [],
       isLoading: false,
       promoFilm: promoFilm,
     };
 
-    const result = filmsSlice.reducer(initialState, fetchPromoFilmAction.fulfilled(promoFilm, '', undefined));
+    const result = filmsSlice.reducer(initialState, fetchPromoAction.fulfilled(promoFilm, '', undefined));
     expect(result).toEqual(expectedState);
   });
 });

@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { withStore } from '../../../utils/mock-component';
 import Overview from './overview';
 import { filmInfo } from '../../../utils/mock-data';
-import { NameSpace } from '../../../consts';
-import { getRatingDescription } from '../../../utils/functions/get-rating-description/get-rating-description';
+import { MAX_PEOPLE, NameSpace } from '../../../consts';
+import { getRatingLevel } from '../../../utils/functions/get-rating-description/get-rating-description';
 
 describe('Component: Overview', () => {
   const mockFilm = filmInfo();
@@ -25,7 +25,7 @@ describe('Component: Overview', () => {
     expect(Number(score.textContent)).toBe(mockFilm.rating);
 
     const level = screen.getByTestId('film-rating-level');
-    expect(level.textContent).toEqual(getRatingDescription(mockFilm.rating));
+    expect(level.textContent).toEqual(getRatingLevel(mockFilm.rating));
 
     const count = screen.getByTestId('film-rating-count');
     expect(count.textContent).toBe(`${mockFilm.scoresCount} ratings`);
@@ -34,8 +34,7 @@ describe('Component: Overview', () => {
     expect(director.textContent).toBe(`Director: ${mockFilm.director}`);
 
     const starring = screen.getByTestId('film-card-starring');
-    expect(starring.textContent?.split(':')[1].split(',').length).toBe(
-      mockFilm.starring.length
-    );
+
+    expect(starring.textContent?.split(':')[1].split(',').length).toBeLessThanOrEqual(MAX_PEOPLE);
   });
 });

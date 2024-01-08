@@ -3,8 +3,8 @@ import AuthError from './auth-error';
 
 describe('Component: AuthError', () => {
   it('should render correctly', () => {
-    const mockMessage = 'password';
-    const expectedText = `Please enter a valid ${mockMessage}`;
+    const mockMessage = 'Please enter a valid password';
+    const expectedText = 'Please enter a valid password';
     const messageTestId = 'error-message';
 
     render(<AuthError message={mockMessage} />);

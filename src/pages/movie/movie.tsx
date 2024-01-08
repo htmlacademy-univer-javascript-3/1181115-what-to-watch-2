@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { AppRoutes, AuthorisationStatus, GenresEnum } from '../../consts';
+import { AppRoutes, AuthorisationStatus } from '../../consts';
 import FilmCardBg from '../../film-card/film-card-bg/film-card-bg';
 import Header from '../../components/header/header';
 import PlayButton from '../../components/controls/play-button/play-button';
@@ -11,37 +11,35 @@ import FilmTabs from '../../components/film-tabs/film-tabs';
 import MemoFilmsList from '../../components/films-list/films-list';
 import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { updateGenre } from '../../store/films/films-slice';
 import { fetchFilmAction, fetchComentsAction, fetchSimilarFilmsAction, fetchFavoriteFilmsAction } from '../../store/api-actions';
-import { MAX_NUM_SIMILAR_FILM } from '../../consts';
-import { getFilmInfo, getSimilarFilms, getError } from '../../store/film/selectors';
+import { getFilmDetails, getSimilarFilms, getError } from '../../store/film/selectors';
 import { getAuthStatus } from '../../store/user/selectors';
 
-function FilmPage(){
+
+const CARD_LIMIT = 4;
+
+function Movie(){
   const dispatch = useAppDispatch();
   const {id} = useParams();
 
-  useEffect(() => {
-    dispatch(updateGenre(GenresEnum.AllGenres));
+  const film = useAppSelector(getFilmDetails);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const error = useAppSelector(getError);
+  const authStatus = useAppSelector(getAuthStatus);
 
-    if (id !== undefined){
+  useEffect(() => {
+    if (id){
       dispatch(fetchFilmAction(id));
       dispatch(fetchComentsAction(id));
       dispatch(fetchSimilarFilmsAction(id));
     }
   }, [id, dispatch]);
 
-  const film = useAppSelector(getFilmInfo);
-  const similarFilms = useAppSelector(getSimilarFilms);
-  const authStatus = useAppSelector(getAuthStatus);
-  const error = useAppSelector(getError);
-  const authorisationStatus = useAppSelector(getAuthStatus);
-
   useEffect(() => {
-    if (authorisationStatus === AuthorisationStatus.Auth) {
+    if (authStatus === AuthorisationStatus.Auth) {
       dispatch(fetchFavoriteFilmsAction());
     }
-  }, [authorisationStatus, dispatch]);
+  }, [authStatus, dispatch]);
 
   return (
     <>
@@ -64,7 +62,7 @@ function FilmPage(){
                 <AddToListButton film={film} />
                 {
                   authStatus === AuthorisationStatus.Auth
-                    ? <Link to={id === undefined || error !== undefined ? AppRoutes.NotFound : `/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                    ? <Link to={id && !error ? `/films/${id}/review` : AppRoutes.NotFound} className="btn film-card__button">Add review</Link>
                     : null
                 }
               </div>
@@ -88,7 +86,7 @@ function FilmPage(){
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <MemoFilmsList list={similarFilms.filter((_, idx) => idx < MAX_NUM_SIMILAR_FILM)}/>
+            <MemoFilmsList list={similarFilms.slice(0, CARD_LIMIT)}/>
           </div>
         </section>
 
@@ -98,4 +96,4 @@ function FilmPage(){
   );
 }
 
-export default FilmPage;
+export default Movie;

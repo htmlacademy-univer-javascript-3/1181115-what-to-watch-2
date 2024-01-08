@@ -12,17 +12,17 @@ function AddToListButton({film}: AddToListButtonProps){
   const countFilmsInMyList = useAppSelector(getCountFilmsInMyList);
   const filmsInMyList = useAppSelector(getFilmsInMyList);
   const [isFavorite, setIsFavorite] = useState(false);
-  const authorisationStatus = useAppSelector(getAuthStatus);
+  const authStatus = useAppSelector(getAuthStatus);
   const navigate = useNavigate();
   const [countFilms, setCountFilms] = useState(0);
 
   useEffect(() => {
-    if (authorisationStatus === AuthorisationStatus.Auth) {
+    if (authStatus === AuthorisationStatus.Auth) {
       setCountFilms(countFilmsInMyList);
     } else {
       setCountFilms(0);
     }
-  }, [authorisationStatus, countFilmsInMyList]);
+  }, [authStatus, countFilmsInMyList]);
 
   useEffect(() => {
     const findFilmInMyList = filmsInMyList.find((filmMyList) => film.id === filmMyList.id);
@@ -35,7 +35,7 @@ function AddToListButton({film}: AddToListButtonProps){
   }, [film.id, filmsInMyList]);
 
   const handleMyListBtnClick = () => {
-    if (authorisationStatus === AuthorisationStatus.Auth){
+    if (authStatus === AuthorisationStatus.Auth){
       if (isFavorite === false) {
         if (film.id !== undefined) {
           dispatch(addFilmToFavoriteAction(film.id));
@@ -59,7 +59,7 @@ function AddToListButton({film}: AddToListButtonProps){
     >
       <svg viewBox="0 0 19 20" width="19" height="20">
         {
-          isFavorite && authorisationStatus === AuthorisationStatus.Auth
+          isFavorite && authStatus === AuthorisationStatus.Auth
             ? <use xlinkHref="#in-list"></use>
             : <use xlinkHref="#add"></use>
         }

@@ -1,84 +1,71 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import FilmCardBg from '../../film-card/film-card-bg/film-card-bg';
 import Header from '../../components/header/header';
 import FilmPoster from '../../components/film-poster/film-poster';
 import PlayButton from '../../components/controls/play-button/play-button';
 import AddToListButton from '../../components/controls/add-to-list-button/add-to-list-button';
 import FilmCardDesc from '../../components/film-card/film-card-desc/film-card-desc';
-import GenresList from '../../components/genre/genres-list/genres-list';
+import GenresList from '../../genres-list/genres-list';
 import MemoFilmsList from '../../components/films-list/films-list';
 import ShowMoreButton from '../../components/controls/show-more-button/show-more-button';
 import Footer from '../../components/footer/footer';
 import LoadingBlock from '../../components/loading-block/loading-block';
-import { GetFilmsByGenreFunc } from '../../types/types';
-import {
-  GenresEnum,
-  MAX_NUM_FILMS,
-  AuthorisationStatus,
-} from '../../consts';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import {
-  fetchPromoFilmAction,
-  fetchFavoriteFilmsAction,
-  fetchFilmsAction,
-} from '../../store/api-actions';
-import { getGenre } from '../../store/films/selectors';
-import {
-  getFilmsInfo,
-  getLoadingStatus,
-  getPromoFilm,
-} from '../../store/films/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
+import { getFilmsInfo, getGenre, getLoadingStatus, getPromoFilm } from '../../store/films/selectors';
+import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoAction } from '../../store/api-actions';
+import { AuthorisationStatus } from '../../consts';
 
-function MainPage() {
+
+const CARD_LIMIT = 8;
+
+function Main() {
+  const authStatus = useAppSelector(getAuthStatus);
+  const isDataLoading = useAppSelector(getLoadingStatus);
+
+  const activeGenreHash = useAppSelector(getGenre);
+  const activeGenre = activeGenreHash.slice(1);
   const dispatch = useAppDispatch();
 
-  const [maxNumFilms, setMaxNumFilms] = useState(MAX_NUM_FILMS);
-  const activeGenre = useAppSelector(getGenre);
-  const filmsInfo = useAppSelector(getFilmsInfo);
-  const isLoadingFilms = useAppSelector(getLoadingStatus);
-  const promoFilm = useAppSelector(getPromoFilm);
-  const authorisationStatus = useAppSelector(getAuthStatus);
+  const list = useAppSelector(getFilmsInfo);
+  const promo = useAppSelector(getPromoFilm);
+  const [limit, setLimit] = useState(CARD_LIMIT);
 
   useEffect(() => {
-    dispatch(fetchPromoFilmAction());
+    dispatch(fetchPromoAction());
     dispatch(fetchFilmsAction());
   }, [dispatch]);
 
+  const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
+
+
   useEffect(() => {
-    if (authorisationStatus === AuthorisationStatus.Auth) {
+    if (authStatus === AuthorisationStatus.Auth) {
       dispatch(fetchFavoriteFilmsAction());
     }
-  }, [authorisationStatus, dispatch]);
+  }, [authStatus, dispatch]);
 
-  const handleShowMoreBtnClick = () => {
-    setMaxNumFilms((max) => max + MAX_NUM_FILMS);
+  const handleMoreClick = () => {
+    setLimit((l) => l + CARD_LIMIT);
   };
 
-  const getFilmsByGenre: GetFilmsByGenreFunc = useCallback(
-    (list) => {
-      if (activeGenre === GenresEnum.AllGenres) {
-        return list;
-      } else {
-        return list.filter((film) => film.genre === activeGenre);
-      }
-    },
-    [activeGenre]
+
+  const filteredCards = useMemo(
+    () => (
+      (!activeGenre) ?
+        list :
+        list.filter((film)=> film.genre === activeGenre)),
+    [list, activeGenre]
   );
 
-  const filmsByGenre = getFilmsByGenre(filmsInfo);
-
-  const shownFilms = useMemo(
-    () => filmsByGenre.filter((_, idx) => idx < maxNumFilms),
-    [filmsByGenre, maxNumFilms]
-  );
+  const filteredCardsWithLimit = useMemo(()=>filteredCards.slice(0, limit), [filteredCards, limit]);
 
   return (
     <>
       <section className="film-card">
         <FilmCardBg
-          img={promoFilm.backgroundImage}
-          filmTitle={promoFilm.name}
+          img={promo.backgroundImage}
+          filmTitle={promo.name}
         />
         <h1 className="visually-hidden">WTW</h1>
 
@@ -87,20 +74,20 @@ function MainPage() {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <FilmPoster
-              imgSrc={promoFilm.posterImage}
-              imgTitle={promoFilm.name}
+              imgSrc={promo.posterImage}
+              imgTitle={promo.name}
             />
 
             <div className="film-card__desc">
               <FilmCardDesc
-                title={promoFilm.name}
-                genre={promoFilm.genre}
-                year={promoFilm.released}
+                title={promo.name}
+                genre={promo.genre}
+                year={promo.released}
               />
 
               <div className="film-card__buttons">
-                <PlayButton filmId={promoFilm.id} />
-                <AddToListButton film={promoFilm} />
+                <PlayButton filmId={promo.id} />
+                <AddToListButton film={promo} />
               </div>
             </div>
           </div>
@@ -111,14 +98,14 @@ function MainPage() {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList />
+          <GenresList genres={genres} />
 
           <div className="catalog__films-list">
-            {isLoadingFilms && <LoadingBlock />}
-            <MemoFilmsList list={shownFilms} />
+            {isDataLoading && <LoadingBlock />}
+            <MemoFilmsList list={filteredCardsWithLimit} />
           </div>
-          {shownFilms.length >= maxNumFilms ? (
-            <ShowMoreButton onShowMoreClick={handleShowMoreBtnClick} />
+          {filteredCardsWithLimit.length >= limit ? (
+            <ShowMoreButton onShowMoreClick={handleMoreClick} />
           ) : null}
         </section>
 
@@ -128,4 +115,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default Main;

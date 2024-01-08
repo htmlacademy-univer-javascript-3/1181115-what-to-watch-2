@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import type { BrowserHistory } from 'history';
-import { GenresEnum } from '../consts';
 
 export type FilmCardProps = {
   id: string;
@@ -15,19 +14,13 @@ export type FilmCardStateProps = FilmCardProps & {
   onFilmCardMouseEvent: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-export type MainPageProps = PromoFilm;
-
-export type AppProps = {
-  videoLink: string;
-};
-
-export type FilmReviews = {
-  id: string | number;
-  text: string;
-  author: string;
-  date: string;
-  rating: string;
-};
+// export type FilmReviews = {
+//   id: string | number;
+//   text: string;
+//   author: string;
+//   date: string;
+//   rating: string;
+// };
 
 export type PropsList<T> = {
   list: T[];
@@ -39,7 +32,7 @@ export type HeaderProps = {
   classes?: string;
 };
 
-export type PropsFooter = HeaderProps;
+export type FooterProps = HeaderProps;
 
 export type FilmPosterProps = {
   imgSrc: string;
@@ -49,14 +42,6 @@ export type FilmPosterProps = {
 
 export type RatingStarProps = RatingProps & {
   id: string;
-};
-
-export type PlayerProps = {
-  videoLink: string;
-};
-
-export type AddReviewProps = {
-  filmInfo: FilmCardProps;
 };
 
 export type BreadcrumbsProps = {
@@ -95,52 +80,16 @@ export type FilmTabsContainerProps = {
   activeTab: number;
 };
 
-export type GetHalfArrayFunc<T> = (arr:T[]) => number;
-
-export type FilmCardOverview = {
-  rating: {
-    score: number;
-    level: string;
-    count: string;
-  };
-  text: {
-    paragraphs: string[];
-    director: string;
-    starring: string;
-  };
-};
-
-export type FilmCardDetails = {
-  director: string;
-  starring: string[];
-  runTime: string;
-  genre: string;
-  realeased: string;
-};
-
-export type FilmCardDescProps = {
-  title: string;
-  genre: string;
-  year: string | number;
-};
-
 export type AddToListButtonProps = {
-  film: LoadableFilm | PromoFilm | FilmCardProps;
+  film: FullFilm | PromoFilm | FilmCardProps;
 };
 
 export type PlayButtonProps = {
   filmId: string;
 };
 
-export type GetRatingDescriptionFunc = (rating:number) => string;
+export type GetRatingLevelFunc = (rating:number) => string;
 
-export type GenreProps = {
-  genre: string;
-  activeClass: string;
-  onGenreClick: React.Dispatch<React.SetStateAction<GenresEnum | string>>;
-};
-
-export type GetFilmsByGenreFunc = (list: FilmCardProps[]) => FilmCardProps[];
 
 export type ShowMoreButtonProps = {
   onShowMoreClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -169,18 +118,6 @@ export type AuthData = {
   password: string;
 };
 
-export type SignInFieldProps = {
-  type: string;
-  placeholder: string;
-  name: string;
-  id: string;
-  value: string;
-  onChangeHandler: React.Dispatch<React.SetStateAction<string>>;
-  htmlFor: string;
-  label: string;
-  errorClass: string;
-};
-
 export type checkEmailFunc = (email: string) => boolean;
 
 export type checkPasswordFunc = (password: string) => boolean;
@@ -189,7 +126,7 @@ export type AuthErrorProps = {
   message: string;
 };
 
-export type LoadableFilm = {
+export type FullFilm = {
   id: string;
   name: string;
   posterImage: string;
@@ -207,7 +144,7 @@ export type LoadableFilm = {
   isFavorite: boolean;
 };
 
-export type LoadableComment = {
+export type UserComment = {
   id: string;
   date: string;
   user: string;
@@ -215,7 +152,7 @@ export type LoadableComment = {
   rating: number;
 };
 
-export type Comment = {
+export type SentComment = {
   id: string;
   comment: string;
   rating: number;
@@ -225,10 +162,6 @@ export type RatingProps = {
   onRatingChange: React.Dispatch<React.SetStateAction<number>>;
   isChecked: boolean | undefined;
   readOnly: boolean;
-};
-
-export type CommentFormMessageProps = {
-  message: string | boolean;
 };
 
 export interface HistoryRouterProps {

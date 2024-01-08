@@ -1,6 +1,6 @@
 import { NameSpace } from '../../consts';
 import { filmInfo, generateFilmReviewArr, generateFilmsArray } from '../../utils/mock-data';
-import { getFilmInfo, getComments, getSimilarFilms, getLoadingStatus, getError } from './selectors';
+import { getFilmDetails, getComments, getSimilarFilms, getLoadingStatus, getError } from './selectors';
 
 describe('FilmSlice selectors', () => {
   const state = {
@@ -15,7 +15,7 @@ describe('FilmSlice selectors', () => {
 
   it('should return film from state', () => {
     const { film } = state[NameSpace.Film];
-    expect(getFilmInfo(state)).toEqual(film);
+    expect(getFilmDetails(state)).toEqual(film);
   });
 
   it('should return comments array from state', () => {

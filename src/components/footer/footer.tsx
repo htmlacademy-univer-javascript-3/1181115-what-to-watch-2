@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { PropsFooter } from '../../types/types';
+import { FooterProps } from '../../types/types';
 
-function Footer({linkLogo}:PropsFooter) {
+function Footer({linkLogo}:FooterProps) {
   return (
     <footer className="page-footer">
       <div className="logo" data-testid='logo'>

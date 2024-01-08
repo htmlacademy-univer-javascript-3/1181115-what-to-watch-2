@@ -7,23 +7,25 @@ import CommentForm from '../../components/comment-form/comment-form';
 import { AppRoutes } from '../../consts';
 import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getError, getFilmInfo } from '../../store/film/selectors';
+import { getError, getFilmDetails } from '../../store/film/selectors';
 import { fetchFilmAction } from '../../store/api-actions';
 
 function AddReview(){
-  const film = useAppSelector(getFilmInfo);
-  const error = useAppSelector(getError);
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { id } = useParams();
+
+  const film = useAppSelector(getFilmDetails);
+  const error = useAppSelector(getError);
+
 
   useEffect(() => {
-    if (error !== undefined) {
+    if (error) {
       navigate(AppRoutes.NotFound);
-    } else if (error === undefined && film.id === '' && id !== undefined) {
+    } else if (id) {
       dispatch(fetchFilmAction(id));
     }
-  }, [error, film.id, id, dispatch, navigate]);
+  }, [error, id, dispatch, navigate]);
 
   return (
     <section className="film-card film-card--full">
