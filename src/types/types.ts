@@ -14,13 +14,11 @@ export type FilmCardStateProps = FilmCardProps & {
   onFilmCardMouseEvent: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-// export type FilmReviews = {
-//   id: string | number;
-//   text: string;
-//   author: string;
-//   date: string;
-//   rating: string;
-// };
+export type FilmCardDescProps = {
+  title: string;
+  genre: string;
+  year: string | number;
+};
 
 export type PropsList<T> = {
   list: T[];
