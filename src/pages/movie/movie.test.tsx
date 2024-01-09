@@ -7,6 +7,7 @@ import { userInfo, extractActionsTypes, filmInfo } from '../../utils/mock-data';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import { MemoryHistory, createMemoryHistory } from 'history';
 
+
 describe('Component: Movie', () => {
   const mockFilm = filmInfo();
   const mockUser = userInfo();

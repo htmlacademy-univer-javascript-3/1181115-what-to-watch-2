@@ -1,3 +1,4 @@
+import { ALL_GENRES } from '../../consts';
 import { generateFilmsArray, promoFilmInfo } from '../../utils/mock-data';
 import { fetchFilmsAction, fetchPromoAction } from '../api-actions';
 import { filmsSlice, setActiveGenre } from './films-slice';
@@ -17,7 +18,7 @@ describe('FilmsSlice slice', () => {
 
   it('should return initial state with empty action', () => {
     const expectedState = {
-      genre: '',
+      genre: ALL_GENRES,
       films: generateFilmsArray(25),
       isLoading: false,
       promoFilm: promoFilmInfo(),
@@ -29,7 +30,7 @@ describe('FilmsSlice slice', () => {
 
   it('should return default initial state with empty action and undefind state', () => {
     const expectedState = {
-      genre:'',
+      genre: ALL_GENRES,
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -41,7 +42,7 @@ describe('FilmsSlice slice', () => {
 
   it('should update "genre" in state with "setActiveGenre" action', () => {
     const initialState = {
-      genre: '',
+      genre: ALL_GENRES,
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -60,7 +61,7 @@ describe('FilmsSlice slice', () => {
 
   it('should update "isLoading" to "true" in state with "fetchFilmsAction.pending" action', () => {
     const expectedState = {
-      genre: '',
+      genre: ALL_GENRES,
       films: [],
       isLoading: true,
       promoFilm: initialPromoFilm,
@@ -74,7 +75,7 @@ describe('FilmsSlice slice', () => {
     const films = generateFilmsArray(25);
 
     const expectedState = {
-      genre: '',
+      genre: ALL_GENRES,
       films: films,
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -86,7 +87,7 @@ describe('FilmsSlice slice', () => {
 
   it('should update "promoFilm" in state with "fetchPromoAction.fulfilled" action', () => {
     const initialState = {
-      genre: '',
+      genre: ALL_GENRES,
       films: [],
       isLoading: false,
       promoFilm: initialPromoFilm,
@@ -95,7 +96,7 @@ describe('FilmsSlice slice', () => {
     const promoFilm = promoFilmInfo();
 
     const expectedState = {
-      genre: '',
+      genre: ALL_GENRES,
       films: [],
       isLoading: false,
       promoFilm: promoFilm,

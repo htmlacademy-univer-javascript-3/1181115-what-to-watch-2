@@ -2,9 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { withHistory, withStore } from '../../utils/mock-component';
 import { generateFilmsArray, promoFilmInfo, userInfo, extractActionsTypes } from '../../utils/mock-data';
 import Main from './main';
-import { APIRoute, AuthorisationStatus, NameSpace } from '../../consts';
+import { ALL_GENRES, APIRoute, AuthorisationStatus, NameSpace } from '../../consts';
 import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoAction } from '../../store/api-actions';
-import { setActiveGenre } from '../../store/films/films-slice';
 
 
 describe('Component: Main', () => {
@@ -20,7 +19,7 @@ describe('Component: Main', () => {
           films: mockFilms,
           promoFilm: mockPromo,
           isLoading: false,
-          genre: ''
+          genre: ALL_GENRES
         },
         [NameSpace.User]: {
           user: mockUser,
@@ -46,7 +45,6 @@ describe('Component: Main', () => {
     expect(screen.getByText(/catalog/i)).toBeInTheDocument();
 
     await waitFor(() => expect(extractActionsTypes(mockStore.getActions())).toEqual([
-      setActiveGenre.type,
       fetchPromoAction.pending.type,
       fetchFilmsAction.pending.type,
       fetchFavoriteFilmsAction.pending.type,

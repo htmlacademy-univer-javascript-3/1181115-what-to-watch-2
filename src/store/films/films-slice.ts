@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace } from '../../consts';
+import { ALL_GENRES, NameSpace } from '../../consts';
 import { FilmsSlice } from '../../types/state';
 import { fetchFilmsAction, fetchPromoAction } from '../api-actions';
 
 const initialState: FilmsSlice = {
-  genre: '',
+  genre: ALL_GENRES,
   films: [],
   isLoading: false,
   promoFilm: {

@@ -1,22 +1,20 @@
 import { render, screen } from '@testing-library/react';
+import { expect } from 'vitest';
+import GenresList from './genres-list';
 import { withStore } from '../utils/mock-component';
 import { NameSpace } from '../consts';
-
 import { generateFilmsArray, promoFilmInfo } from '../utils/mock-data';
-import GenreList from './genres-list';
 
-describe('Component: FilmTabsContainer', () => {
+
+describe('Component: GenresList', () => {
+  const mockGenres = ['Comedy', 'Drama'];
   const mockPromo = promoFilmInfo();
   const mockGenre = 'All genres';
-  const mockFilms = generateFilmsArray(8);
-
-  const originalGenres = new Set('');
-  mockFilms.map((film) => originalGenres.add(film.genre));
-
+  const mockFilms = generateFilmsArray(7);
 
   it('should render correctly', () => {
     const { withStoreComponent } = withStore(
-      <GenreList genres={[]}/>,
+      <GenresList genres={mockGenres}/>,
       {
         [NameSpace.Films]: {
           films: mockFilms,
@@ -29,6 +27,6 @@ describe('Component: FilmTabsContainer', () => {
 
     render(withStoreComponent);
 
-    expect(screen.getAllByRole('genre').length).toBe(originalGenres.size + 1);
+    expect(screen.getAllByRole('genre').length).toBe(mockGenres.length + 1);
   });
 });

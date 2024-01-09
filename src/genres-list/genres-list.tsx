@@ -1,19 +1,21 @@
-import { Link, useLocation } from 'react-router-dom';
-
-import { useEffect } from 'react';
-import { useAppDispatch } from '../hooks';
 import { setActiveGenre } from '../store/films/films-slice';
-import { MAX_NUM_GENRES } from '../consts';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { getGenre } from '../store/films/selectors';
 
 
 type Props = {
   genres: string[];
 }
 
+type Genre ={
+  text: string;
+  href: string;
+}
+
 const ACTIVE_STYLE = 'catalog__genres-item--active';
 
-function GenreList({ genres }: Props){
-  const location = useLocation();
+function GenresList({ genres }: Props){
+  const activeGenre = useAppSelector(getGenre);
   const dispatch = useAppDispatch();
 
   const allGenres = [
@@ -21,18 +23,21 @@ function GenreList({ genres }: Props){
     ...genres.map((g)=>({text: g, href: `#${g}`})),
   ];
 
-  useEffect(() => {
-    dispatch(setActiveGenre(location.hash));
-  },[location, dispatch]);
+  const handleGenreChange = (genre:Genre)=>{
+    dispatch(setActiveGenre(genre.text));
+  };
 
   return(
-    <ul className="catalog__genres-list">
+    <ul className="catalog__genres-list" >
       {
-        allGenres.slice(0,MAX_NUM_GENRES).map((genre)=>(
-          <li key={genre.href} className={`catalog__genres-item ${location.hash === genre.href ? ACTIVE_STYLE : ''}`}>
-            <Link to={genre.href} className="catalog__genres-link">
-              {genre.text}
-            </Link>
+        allGenres.map((genre)=>(
+          <li
+            key={genre.href}
+            className={`catalog__genres-item ${activeGenre === genre.text ? ACTIVE_STYLE : ''}`}
+            onClick={()=>handleGenreChange(genre)}
+            role="genre"
+          >
+            <span className='catalog__genres-link'>{genre.text}</span>
           </li>
         ))
       }
@@ -40,4 +45,4 @@ function GenreList({ genres }: Props){
   );
 }
 
-export default GenreList;
+export default GenresList;

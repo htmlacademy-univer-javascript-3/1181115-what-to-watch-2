@@ -17,6 +17,7 @@ export const generateFilmReviewArr = (arrayLength: number): UserComment[] => (
   Array.from({ length: arrayLength }, () => filmReview())
 );
 
+
 export const userInfo = (): UserData => ({
   name: faker.name.findName(),
   avatarUrl: faker.image.imageUrl(),

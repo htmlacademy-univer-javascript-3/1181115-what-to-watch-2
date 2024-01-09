@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { getFilmsInfo, getGenre, getLoadingStatus, getPromoFilm } from '../../store/films/selectors';
 import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoAction } from '../../store/api-actions';
-import { AuthorisationStatus } from '../../consts';
+import { ALL_GENRES, AuthorisationStatus } from '../../consts';
 
 
 const CARD_LIMIT = 8;
@@ -23,10 +23,10 @@ function Main() {
   const authStatus = useAppSelector(getAuthStatus);
   const isDataLoading = useAppSelector(getLoadingStatus);
 
-  const activeGenreHash = useAppSelector(getGenre);
-  const activeGenre = activeGenreHash.slice(1);
+  const activeGenre = useAppSelector(getGenre);
   const dispatch = useAppDispatch();
 
+  const currentGenre = useAppSelector(getGenre);
   const list = useAppSelector(getFilmsInfo);
   const promo = useAppSelector(getPromoFilm);
   const [limit, setLimit] = useState(CARD_LIMIT);
@@ -36,7 +36,7 @@ function Main() {
     dispatch(fetchFilmsAction());
   }, [dispatch]);
 
-  const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list]);
+  const genres = useMemo(() => Array.from(new Set(list.map((film) => film.genre))),[list, currentGenre]);
 
 
   useEffect(() => {
@@ -52,7 +52,7 @@ function Main() {
 
   const filteredCards = useMemo(
     () => (
-      (!activeGenre) ?
+      (activeGenre === ALL_GENRES) ?
         list :
         list.filter((film)=> film.genre === activeGenre)),
     [list, activeGenre]

@@ -69,3 +69,5 @@ export const MAX_NUM_SIMILAR_FILM = 4;
 export const MAX_PEOPLE = 4;
 
 export const VIDEO_TIMEOUT = 1000;
+
+export const ALL_GENRES = 'All genres';
