@@ -1,33 +1,33 @@
-import { getRatingDescription } from './get-rating-description';
-import { RatingDescription } from '../../../consts';
+import { getRatingLevel } from './get-rating-description';
+import { RatingLevel } from '../../../consts';
 
-describe('Function: getRatingDescription', () => {
+describe('Function: getRatingLevel', () => {
   it('should return Bad in range [0; 3)', () => {
-    expect(getRatingDescription(0)).toEqual(RatingDescription.Bad);
-    expect(getRatingDescription(2.99)).toEqual(RatingDescription.Bad);
+    expect(getRatingLevel(0)).toEqual(RatingLevel.Bad);
+    expect(getRatingLevel(2.99)).toEqual(RatingLevel.Bad);
   });
 
   it('should return Normal in range [3; 5)', () => {
-    expect(getRatingDescription(3)).toEqual(RatingDescription.Normal);
-    expect(getRatingDescription(4.99)).toEqual(RatingDescription.Normal);
+    expect(getRatingLevel(3)).toEqual(RatingLevel.Normal);
+    expect(getRatingLevel(4.99)).toEqual(RatingLevel.Normal);
   });
 
   it('should return Good in range [5; 8)', () => {
-    expect(getRatingDescription(5)).toEqual(RatingDescription.Good);
-    expect(getRatingDescription(7.99)).toEqual(RatingDescription.Good);
+    expect(getRatingLevel(5)).toEqual(RatingLevel.Good);
+    expect(getRatingLevel(7.99)).toEqual(RatingLevel.Good);
   });
 
   it('should return Very Good in range [8; 10)', () => {
-    expect(getRatingDescription(8)).toEqual(RatingDescription.VeryGood);
-    expect(getRatingDescription(9.99)).toEqual(RatingDescription.VeryGood);
+    expect(getRatingLevel(8)).toEqual(RatingLevel.VeryGood);
+    expect(getRatingLevel(9.99)).toEqual(RatingLevel.VeryGood);
   });
 
   it('should return Awesome in case of 10', () => {
-    expect(getRatingDescription(10)).toEqual(RatingDescription.Awesome);
+    expect(getRatingLevel(10)).toEqual(RatingLevel.Awesome);
   });
 
   it('should return an empty line if value more then 10 or the value is negative', () => {
-    expect(getRatingDescription(-1)).toEqual('');
-    expect(getRatingDescription(11)).toEqual('');
+    expect(getRatingLevel(-1)).toEqual('');
+    expect(getRatingLevel(11)).toEqual('');
   });
 });

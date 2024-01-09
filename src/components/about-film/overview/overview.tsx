@@ -1,10 +1,11 @@
-import React from 'react';
-import { getRatingDescription } from '../../../utils/functions/get-rating-description/get-rating-description';
+import { getRatingLevel } from '../../../utils/functions/get-rating-description/get-rating-description';
 import { useAppSelector } from '../../../hooks';
-import { getFilmInfo } from '../../../store/film/selectors';
+import { getFilmDetails } from '../../../store/film/selectors';
+import { MAX_PEOPLE } from '../../../consts';
+
 
 function Overview() {
-  const film = useAppSelector(getFilmInfo);
+  const film = useAppSelector(getFilmDetails);
 
   return (
     <>
@@ -14,7 +15,7 @@ function Overview() {
         </div>
         <p className="film-rating__meta">
           <span className="film-rating__level" data-testid="film-rating-level">
-            {getRatingDescription(film.rating)}
+            {getRatingLevel(film.rating)}
           </span>
           <span className="film-rating__count" data-testid="film-rating-count">
             {film.scoresCount} ratings
@@ -31,17 +32,8 @@ function Overview() {
         </p>
         <p className="film-card__starring">
           <strong data-testid="film-card-starring">
-            Starring:
-            {film.starring
-              .filter((_, idx) => idx < film.starring.length - 1)
-              .map((fio) => (
-                <React.Fragment key={fio}> {fio},</React.Fragment>
-              ))}
-            {film.starring
-              .filter((_, idx) => idx === film.starring.length - 1)
-              .map((fio) => (
-                <React.Fragment key={fio}> {fio}</React.Fragment>
-              ))}
+            Starring: {film.starring.slice(0,MAX_PEOPLE).join(', ')}
+            {(film.starring.length > MAX_PEOPLE) && ' and other'}
           </strong>
         </p>
       </div>

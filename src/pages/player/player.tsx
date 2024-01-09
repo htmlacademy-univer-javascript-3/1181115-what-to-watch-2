@@ -2,9 +2,9 @@ import { useEffect, useRef, SyntheticEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppRoutes, VideoPlayerConsts } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getFilmInfo } from '../../store/film/selectors';
+import { getFilmDetails } from '../../store/film/selectors';
 import useVideoPlayer from '../../hooks/use-video-player';
-import { changeVideoTimeFormat } from '../../utils/functions/change-video-time-format/change-video-time-format';
+import { processPlayerTime } from '../../utils/functions/process-player-time/process-player-time';
 import { fetchFilmAction } from '../../store/api-actions';
 
 function Player() {
@@ -12,7 +12,7 @@ function Player() {
   const navigate = useNavigate();
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
 
-  const film = useAppSelector(getFilmInfo);
+  const film = useAppSelector(getFilmDetails);
   const {
     playerState,
     setPlayerState,
@@ -43,7 +43,7 @@ function Player() {
     navigate(AppRoutes.Film.replace(':id', film.id));
   };
 
-  const timeObject = changeVideoTimeFormat(playerState.remainDuration);
+  const timeObject = processPlayerTime(playerState.remainDuration);
 
   return (
     <div className="player">

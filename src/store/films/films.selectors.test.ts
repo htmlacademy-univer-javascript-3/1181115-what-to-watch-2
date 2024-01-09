@@ -1,11 +1,11 @@
-import { NameSpace, GenresEnum } from '../../consts';
+import { NameSpace } from '../../consts';
 import { generateFilmsArray, promoFilmInfo } from '../../utils/mock-data';
 import { getGenre, getFilmsInfo, getLoadingStatus, getPromoFilm } from './selectors';
 
 describe('FilmsSlice selectors', () => {
   const state = {
     [NameSpace.Films]: {
-      genre: GenresEnum.AllGenres,
+      genre: '',
       films: generateFilmsArray(21),
       isLoading: false,
       promoFilm: promoFilmInfo(),

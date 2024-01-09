@@ -6,9 +6,9 @@ import {
   PromoFilm,
   UserData,
   AuthData,
-  LoadableFilm,
-  LoadableComment,
-  Comment
+  FullFilm,
+  UserComment,
+  SentComment
 } from '../types/types';
 import { APIRoute, AppRoutes, FavoriteFilmStatus } from '../consts';
 import { redirectToRoute } from './action';
@@ -27,7 +27,7 @@ export const fetchFilmsAction = createAsyncThunk<FilmCardProps[], undefined, {
   }
 );
 
-export const fetchPromoFilmAction = createAsyncThunk<PromoFilm, undefined, {
+export const fetchPromoAction = createAsyncThunk<PromoFilm, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -71,7 +71,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchFilmAction = createAsyncThunk<LoadableFilm, string, {
+export const fetchFilmAction = createAsyncThunk<FullFilm, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -79,12 +79,12 @@ export const fetchFilmAction = createAsyncThunk<LoadableFilm, string, {
 >(
   'FILM/fetchFilm',
   async (id, { extra: api }) => {
-    const { data } = await api.get<LoadableFilm>(`${APIRoute.Films}/${id}`);
+    const { data } = await api.get<FullFilm>(`${APIRoute.Films}/${id}`);
     return data;
   }
 );
 
-export const fetchComentsAction = createAsyncThunk<LoadableComment[], string, {
+export const fetchComentsAction = createAsyncThunk<UserComment[], string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -92,7 +92,7 @@ export const fetchComentsAction = createAsyncThunk<LoadableComment[], string, {
 >(
   'FILM/fetchComment',
   async (id, { extra: api }) => {
-    const { data } = await api.get<LoadableComment[]>(`${APIRoute.Comments}/${id}`);
+    const { data } = await api.get<UserComment[]>(`${APIRoute.Comments}/${id}`);
     return data;
   }
 );
@@ -110,7 +110,7 @@ export const fetchSimilarFilmsAction = createAsyncThunk<FilmCardProps[], string,
   }
 );
 
-export const sendCommentAction = createAsyncThunk<LoadableComment, Comment, {
+export const sendCommentAction = createAsyncThunk<UserComment, SentComment, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -118,7 +118,7 @@ export const sendCommentAction = createAsyncThunk<LoadableComment, Comment, {
 >(
   'FILM/sendComment',
   async ({id, comment, rating}, { dispatch, extra: api}) => {
-    const { data } = await api.post<LoadableComment>(`${APIRoute.Comments}/${id}`, {
+    const { data } = await api.post<UserComment>(`${APIRoute.Comments}/${id}`, {
       comment,
       rating
     });

@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { AppRoutes } from '../../consts';
-import MainPage from '../../pages/main/main';
+import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
 import MyList from '../../pages/my-list/my-list';
-import FilmPage from '../../pages/film-page/film-page';
+import Movie from '../../pages/movie/movie';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
 import NotFound from '../../pages/not-found/not-found';
@@ -30,7 +30,7 @@ function App() {
       <Route
         path={AppRoutes.Main}
         element={
-          <MainPage />
+          <Main />
         }
       />
       <Route path={AppRoutes.Login} element={<SignIn />} />
@@ -42,7 +42,7 @@ function App() {
           </PrivateRoute>
         }
       />
-      <Route path={AppRoutes.Film} element={<FilmPage />}/>
+      <Route path={AppRoutes.Film} element={<Movie />}/>
       <Route
         path={AppRoutes.AddReview}
         element={

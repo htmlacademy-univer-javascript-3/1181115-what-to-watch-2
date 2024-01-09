@@ -15,7 +15,7 @@ import {
 } from '../utils/mock-data';
 import {
   fetchFilmsAction,
-  fetchPromoFilmAction,
+  fetchPromoAction,
   fetchFavoriteFilmsAction,
   loginAction,
   logoutAction,
@@ -81,20 +81,20 @@ describe('Async actions', () => {
     });
   });
 
-  describe('fetchPromoFilmAction', () => {
-    it('should dispatch "fetchPromoFilmAction.pending", "fetchPromoFilmAction.fulfilled" when server response 200', async () => {
+  describe('fetchPromoAction', () => {
+    it('should dispatch "fetchPromoAction.pending", "fetchPromoAction.fulfilled" when server response 200', async () => {
       const promoFilm = promoFilmInfo();
       mockAxiosAdapter.onGet(APIRoute.Promo).reply(200, promoFilm);
 
-      await store.dispatch(fetchPromoFilmAction());
+      await store.dispatch(fetchPromoAction());
 
       const emittedActions = store.getActions();
       const actions = extractActionsTypes(emittedActions);
-      const fetchPromoFilmActionFulfilled = emittedActions.at(1) as ReturnType<typeof fetchPromoFilmAction.fulfilled>;
+      const fetchPromoFilmActionFulfilled = emittedActions.at(1) as ReturnType<typeof fetchPromoAction.fulfilled>;
 
       expect(actions).toEqual([
-        fetchPromoFilmAction.pending.type,
-        fetchPromoFilmAction.fulfilled.type,
+        fetchPromoAction.pending.type,
+        fetchPromoAction.fulfilled.type,
       ]);
 
       expect(fetchPromoFilmActionFulfilled.payload).toEqual(promoFilm);
